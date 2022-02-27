@@ -7,9 +7,11 @@ G:\github\codexhub-ebook-management\CodexHub\UserService\bin\Debug\netcoreapp3.1
 G:\github\codexhub-ebook-management\CodexHub\UserService\bin\Debug\netcoreapp3.1\UserService.dll
 G:\github\codexhub-ebook-management\CodexHub\UserService\bin\Debug\netcoreapp3.1\UserService.pdb
 G:\github\codexhub-ebook-management\CodexHub\UserService\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+G:\github\codexhub-ebook-management\CodexHub\UserService\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 G:\github\codexhub-ebook-management\CodexHub\UserService\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
 G:\github\codexhub-ebook-management\CodexHub\UserService\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 G:\github\codexhub-ebook-management\CodexHub\UserService\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
+G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\UserService.csproj.AssemblyReference.cache
 G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\UserService.GeneratedMSBuildEditorConfig.editorconfig
 G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\UserService.AssemblyInfoInputs.cache
 G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\UserService.AssemblyInfo.cs
@@ -17,8 +19,6 @@ G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1
 G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\UserService.MvcApplicationPartsAssemblyInfo.cs
 G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\UserService.MvcApplicationPartsAssemblyInfo.cache
 G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\staticwebassets\UserService.StaticWebAssets.Manifest.cache
-G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\staticwebassets\UserService.StaticWebAssets.xml
-G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\scopedcss\bundle\UserService.styles.css
 G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\UserService.RazorTargetAssemblyInfo.cache
 G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\UserService.csproj.CopyComplete
 G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\UserService.dll

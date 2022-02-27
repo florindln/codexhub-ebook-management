@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace BookService.Dtos
 {
-    public record BookDto(Guid id, string title, string author, string description, float initialPrice);
-    public record UpdateBookDto(Guid id, float initialPrice);
+    public record BookDto(Guid Id, string Title, string Author, string Description, double InitialPrice);
+    public record CreateBookDto(string Title, string Author, string Description, double InitialPrice);
+    public record UpdateBookDto(double InitialPrice);
 }

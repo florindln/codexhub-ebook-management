@@ -17,7 +17,12 @@ namespace UserService.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserRepository userRepository = new UserRepository();
+        private readonly IUserRepository userRepository;
+
+        public UsersController(IUserRepository userRepository)
+        {
+            this.userRepository = userRepository;
+        }
 
         // GET: api/<UsersController>
         [HttpGet]

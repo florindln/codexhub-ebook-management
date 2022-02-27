@@ -11,7 +11,6 @@ G:\github\codexhub-ebook-management\CodexHub\UserService\bin\Debug\netcoreapp3.1
 G:\github\codexhub-ebook-management\CodexHub\UserService\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
 G:\github\codexhub-ebook-management\CodexHub\UserService\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 G:\github\codexhub-ebook-management\CodexHub\UserService\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
-G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\UserService.csproj.AssemblyReference.cache
 G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\UserService.GeneratedMSBuildEditorConfig.editorconfig
 G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\UserService.AssemblyInfoInputs.cache
 G:\github\codexhub-ebook-management\CodexHub\UserService\obj\Debug\netcoreapp3.1\UserService.AssemblyInfo.cs

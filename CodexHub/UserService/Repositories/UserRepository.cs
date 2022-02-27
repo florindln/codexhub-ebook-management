@@ -8,17 +8,15 @@ using UserService.Entities;
 
 namespace UserService.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private const string collectionName = "users";
         private readonly IMongoCollection<UserEntity> dbCollection;
         private readonly FilterDefinitionBuilder<UserEntity> filterBuilder = Builders<UserEntity>.Filter;
 
-        public UserRepository()
+        public UserRepository(IMongoDatabase mongoDatabase)
         {
-            var mongoclient = new MongoClient("mongodb://localhost:27017");
-            var database = mongoclient.GetDatabase("UsersCatalog");
-            dbCollection = database.GetCollection<UserEntity>(collectionName);
+            dbCollection = mongoDatabase.GetCollection<UserEntity>(collectionName);
         }
 
         public async Task<IReadOnlyCollection<UserEntity>> GetAllAsync()

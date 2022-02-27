@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "hKHSHHqzCprlFGWqiWKIyWCS21eMjvByKRGjbUGav9NQBE7aI142o+Cho47Tl9d0hvMRQMQTvtOvNN3JpGsoRQ==",
+  "dgSpecHash": "EIDTs4YPdYfIJY6ISt//415F8k5ajKExPqH0E/2+Icps0kT0Bsc12zjbFrIE9drOoHDgXI7+xvkfjIHJRouIww==",
   "success": true,
   "projectFilePath": "G:\\github\\codexhub-ebook-management\\CodexHub\\UserService\\UserService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ciucu\\.nuget\\packages\\dnsclient\\1.4.0\\dnsclient.1.4.0.nupkg.sha512",
     "C:\\Users\\Ciucu\\.nuget\\packages\\functional.maybe\\2.0.20\\functional.maybe.2.0.20.nupkg.sha512",
+    "C:\\Users\\Ciucu\\.nuget\\packages\\isexternalinit\\1.0.2\\isexternalinit.1.0.2.nupkg.sha512",
     "C:\\Users\\Ciucu\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Ciucu\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
     "C:\\Users\\Ciucu\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\3.1.0\\microsoft.aspnetcore.razor.language.3.1.0.nupkg.sha512",

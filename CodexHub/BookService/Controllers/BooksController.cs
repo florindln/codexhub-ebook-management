@@ -28,9 +28,13 @@ namespace BookService.Controllers
 
         // GET api/<BookController>/5
         [HttpGet("{id}")]
-        public BookDto GetById(Guid id)
+        public ActionResult<BookDto> GetById(Guid id)
         {
             var book = books.Where(x => x.Id == id).SingleOrDefault();
+
+            if (book == null)
+                return NotFound();
+
             return book;
         }
 
@@ -49,6 +53,9 @@ namespace BookService.Controllers
         {
             var existingBook = books.Where(x => x.Id == id).SingleOrDefault();
 
+            if (existingBook == null)
+                return NotFound();
+
             var updatedBook = existingBook with
             {
                 InitialPrice = updateBookDto.InitialPrice,
@@ -65,6 +72,10 @@ namespace BookService.Controllers
         public IActionResult Delete(Guid id)
         {
             var index = books.FindIndex(x => x.Id == id);
+
+            if (index < 0)
+                return NotFound();
+
             books.RemoveAt(index);
             return NoContent();
         }

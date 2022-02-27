@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "DzOWBQnV4NgGnvx9z2GQJLpEF17R9OdrwNZPaV3Vz8rCNv1p7Xq9iw0IQgqFmHG+5qC12SbNwuHJOY2CQ38h1Q==",
+  "success": true,
+  "projectFilePath": "G:\\github\\codexhub-ebook-management\\CodexHub\\BookService\\BookService.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Ciucu\\.nuget\\packages\\isexternalinit\\1.0.2\\isexternalinit.1.0.2.nupkg.sha512",
+    "C:\\Users\\Ciucu\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\Ciucu\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Ciucu\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\Ciucu\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\Ciucu\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\Ciucu\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}

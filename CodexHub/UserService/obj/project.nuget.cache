@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "qTwGJBAab6Po+rH6nveWUfsrvQfvat5YN+xK0zJdvuvzvTuUGpIWDWdJEUeMqcReDZH2z1KwfMLaZMz1TKi6qQ==",
+  "dgSpecHash": "w1tyTjPqvvPuQxNf6AXoJPUblHrlhHzWmRryqyua81mU0K/3XfU/0gg9316C+xjn/Mbhobc/yYXnHZiaHf3eYw==",
   "success": true,
   "projectFilePath": "G:\\github\\codexhub-ebook-management\\CodexHub\\UserService\\UserService.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Ciucu\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\Ciucu\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Ciucu\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\Ciucu\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\Ciucu\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\Ciucu\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
   "logs": []
 }

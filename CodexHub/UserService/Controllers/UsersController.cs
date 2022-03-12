@@ -13,7 +13,7 @@ using UserService.Repositories;
 
 namespace UserService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("v1/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -33,7 +33,7 @@ namespace UserService.Controllers
         }
 
         // GET api/<UsersController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetById")]
         public async Task<ActionResult<UserDto>> GetById(Guid id)
         {
             var user = await userRepository.GetAsync(id);
@@ -48,11 +48,16 @@ namespace UserService.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(UserDto userDto)
         {
+            if (userDto.Id != Guid.Empty)
+                throw new ArgumentException("Cannot provide id when creating an user");
+
+            userDto.Id = Guid.NewGuid();
+
             var user = userDto.AsModel();
 
             await userRepository.CreateAsync(user.AsData());
 
-            return CreatedAtAction(nameof(GetById), user);
+            return Created(nameof(GetById), user);
         }
 
         // PUT api/<UsersController>/5

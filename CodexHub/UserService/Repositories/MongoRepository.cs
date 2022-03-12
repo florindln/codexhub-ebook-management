@@ -8,36 +8,35 @@ using UserService.Entities;
 
 namespace UserService.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class MongoRepository<T> : IRepository<T> where T : IEntity
     {
-        private const string collectionName = "users";
-        private readonly IMongoCollection<UserEntity> dbCollection;
-        private readonly FilterDefinitionBuilder<UserEntity> filterBuilder = Builders<UserEntity>.Filter;
+        private readonly IMongoCollection<T> dbCollection;
+        private readonly FilterDefinitionBuilder<T> filterBuilder = Builders<T>.Filter;
 
-        public UserRepository(IMongoDatabase mongoDatabase)
+        public MongoRepository(IMongoDatabase mongoDatabase, string collectionName)
         {
-            dbCollection = mongoDatabase.GetCollection<UserEntity>(collectionName);
+            dbCollection = mongoDatabase.GetCollection<T>(collectionName);
         }
 
-        public async Task<IReadOnlyCollection<UserEntity>> GetAllAsync()
+        public async Task<IReadOnlyCollection<T>> GetAllAsync()
         {
             return await dbCollection.Find(filterBuilder.Empty).ToListAsync();
         }
 
-        public async Task<UserEntity> GetAsync(Guid id)
+        public async Task<T> GetAsync(Guid id)
         {
             var filter = filterBuilder.Eq(x => x.Id, id);
             return await dbCollection.Find(filter).FirstOrDefaultAsync();
         }
 
-        public async Task CreateAsync(UserEntity user)
+        public async Task CreateAsync(T user)
         {
             user.NotNull();
 
             await dbCollection.InsertOneAsync(user);
         }
 
-        public async Task UpdateAsync(UserEntity user)
+        public async Task UpdateAsync(T user)
         {
             user.NotNull();
 

@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UserService.Entities;
 using UserService.Repositories;
 using UserService.Settings;
 
@@ -43,7 +44,11 @@ namespace UserService
                 var mongoClient = new MongoClient(mongoDbSettings.ConnectionString);
                 return mongoClient.GetDatabase(serviceSettings.ServiceName);
             });
-            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IRepository<UserEntity>>(serviceProvider =>
+            {
+                var database = serviceProvider.GetService<IMongoDatabase>();
+                return new MongoRepository<UserEntity>(database, "users");
+            });
 
             services.AddControllers();
             services.AddSwaggerGen();

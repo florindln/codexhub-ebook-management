@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UserService.Entities;
 
 namespace UserService.Models
 {
-    public class User
+    public class User : IEntity
     {
         public User(Guid id, string firstName, string lastName, string email, Maybe<List<string>> interests)
         {

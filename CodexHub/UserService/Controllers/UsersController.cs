@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UserService.Conversion;
 using UserService.Dtos;
+using UserService.Entities;
 using UserService.Models;
 using UserService.Repositories;
 
@@ -17,9 +18,9 @@ namespace UserService.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository userRepository;
+        private readonly IRepository<UserEntity> userRepository;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IRepository<UserEntity> userRepository)
         {
             this.userRepository = userRepository;
         }
@@ -33,7 +34,7 @@ namespace UserService.Controllers
         }
 
         // GET api/<UsersController>/5
-        [HttpGet("{id}", Name = "GetById")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetById(Guid id)
         {
             var user = await userRepository.GetAsync(id);

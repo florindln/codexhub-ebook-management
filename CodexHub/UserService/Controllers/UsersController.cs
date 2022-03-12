@@ -1,4 +1,5 @@
-﻿using Functional.Maybe;
+﻿using Common;
+using Functional.Maybe;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,6 @@ using UserService.Conversion;
 using UserService.Dtos;
 using UserService.Entities;
 using UserService.Models;
-using UserService.Repositories;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

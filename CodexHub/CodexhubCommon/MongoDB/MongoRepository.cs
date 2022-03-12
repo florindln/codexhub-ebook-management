@@ -2,11 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
-using UserService.Conversion;
-using UserService.Entities;
 
-namespace UserService.Repositories
+namespace CodexhubCommon.MongoDB
 {
     public class MongoRepository<T> : IRepository<T> where T : IEntity
     {
@@ -22,24 +21,27 @@ namespace UserService.Repositories
         {
             return await dbCollection.Find(filterBuilder.Empty).ToListAsync();
         }
+        public async Task<IReadOnlyCollection<T>> GetAllAsync(Expression<Func<T, bool>> filter)
+        {
+            return await dbCollection.Find(filter).ToListAsync();
+        }
 
         public async Task<T> GetAsync(Guid id)
         {
             var filter = filterBuilder.Eq(x => x.Id, id);
             return await dbCollection.Find(filter).FirstOrDefaultAsync();
         }
-
+        public async Task<T> GetAsync(Guid id, Expression<Func<T, bool>> filter)
+        {
+            return await dbCollection.Find(filter).FirstOrDefaultAsync();
+        }
         public async Task CreateAsync(T user)
         {
-            user.NotNull();
-
             await dbCollection.InsertOneAsync(user);
         }
 
         public async Task UpdateAsync(T user)
         {
-            user.NotNull();
-
             var filter = filterBuilder.Eq(x => x.Id, user.Id);
 
             await dbCollection.ReplaceOneAsync(filter, user);
@@ -50,6 +52,8 @@ namespace UserService.Repositories
             var filter = filterBuilder.Eq(x => x.Id, id);
             await dbCollection.DeleteOneAsync(filter);
         }
+
+
 
     }
 }

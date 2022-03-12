@@ -7,7 +7,7 @@ using UserService.Entities;
 
 namespace UserService.Models
 {
-    public class User : IEntity
+    public class User
     {
         public User(Guid id, string firstName, string lastName, string email, Maybe<List<string>> interests)
         {

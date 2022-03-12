@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UserService.Entities
+namespace CodexhubCommon
 {
     public interface IEntity
     {

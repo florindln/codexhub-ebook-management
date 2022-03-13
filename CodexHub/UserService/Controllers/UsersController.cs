@@ -35,7 +35,7 @@ namespace UserService.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDto>> GetById(Guid id)
+        public async Task<ActionResult<UserDto>> GetByIdAsync(Guid id)
         {
             var user = await userRepository.GetAsync(id);
 
@@ -47,7 +47,7 @@ namespace UserService.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<IActionResult> Post(UserDto userDto)
+        public async Task<IActionResult> PostAsync(UserDto userDto)
         {
             if (userDto.Id != Guid.Empty)
                 throw new ArgumentException("Cannot provide id when creating an user");
@@ -58,12 +58,12 @@ namespace UserService.Controllers
 
             await userRepository.CreateAsync(user.AsData());
 
-            return Created(nameof(GetById), user);
+            return Created(nameof(GetByIdAsync), user);
         }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<UserDto>> Put(Guid id, UpdateUserDto updateUserDto)
+        public async Task<ActionResult<UserDto>> PutAsync(Guid id, UpdateUserDto updateUserDto)
         {
             var existing = await userRepository.GetAsync(id);
 
@@ -80,7 +80,7 @@ namespace UserService.Controllers
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteAsync(Guid id)
         {
             await userRepository.DeleteAsync(id);
 

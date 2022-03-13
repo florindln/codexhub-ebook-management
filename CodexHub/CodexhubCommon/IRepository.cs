@@ -12,7 +12,7 @@ namespace CodexhubCommon
         Task<IReadOnlyCollection<T>> GetAllAsync();
         Task<IReadOnlyCollection<T>> GetAllAsync(Expression<Func<T, bool>> filter);
         Task<T> GetAsync(Guid id);
-        Task<T> GetAsync(Guid id, Expression<Func<T, bool>> filter);
+        Task<T> GetAsync(Expression<Func<T, bool>> filter);
         Task UpdateAsync(T entity);
     }
 }

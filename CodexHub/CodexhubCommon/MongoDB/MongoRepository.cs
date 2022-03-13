@@ -31,7 +31,7 @@ namespace CodexhubCommon.MongoDB
             var filter = filterBuilder.Eq(x => x.Id, id);
             return await dbCollection.Find(filter).FirstOrDefaultAsync();
         }
-        public async Task<T> GetAsync(Guid id, Expression<Func<T, bool>> filter)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> filter)
         {
             return await dbCollection.Find(filter).FirstOrDefaultAsync();
         }

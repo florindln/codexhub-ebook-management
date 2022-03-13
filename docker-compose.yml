@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  # reactclient:
+  #   build:
+  #     context: ./codex-hub-frontend
+  #     dockerfile: Dockerfile
+  #   tty: true
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./codex-hub-frontend:/app
+  #     - /app/node_modules
+  #   networks:
+  #     - frontend
+  mongodb:
+    image: mongo
+    container_name: mongo
+    volumes:
+      - mongodbdata:/data/db
+    ports:
+      - "27017:27017"
+volumes:
+  mongodbdata:

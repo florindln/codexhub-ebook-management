@@ -1,17 +1,12 @@
+using CodexhubCommon.MongoDB;
+using InventoryService.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace BookService
+namespace InventoryService
 {
     public class Startup
     {
@@ -25,6 +20,7 @@ namespace BookService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMongo().AddMongoRepository<BookUserEntity>("bookuser");
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen();
         }
@@ -45,7 +41,7 @@ namespace BookService
 
             app.UseSwaggerUI(x =>
             {
-                x.SwaggerEndpoint("/swagger/v1/swagger.json", "BookApi");
+                x.SwaggerEndpoint("/swagger/v1/swagger.json", "InventoryApi");
             });
 
             app.UseEndpoints(endpoints =>

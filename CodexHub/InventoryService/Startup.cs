@@ -21,7 +21,8 @@ namespace InventoryService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMongo().AddMongoRepository<BookUserEntity>("bookuser");
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers().AddNewtonsoftJson().AddJsonOptions(
+        options => options.JsonSerializerOptions.PropertyNamingPolicy = null); ;
             services.AddSwaggerGen();
         }
 

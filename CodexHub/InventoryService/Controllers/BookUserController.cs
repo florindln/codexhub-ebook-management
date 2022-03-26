@@ -1,4 +1,5 @@
 ﻿using CodexhubCommon;
+using InventoryService.Clients;
 using InventoryService.Conversion;
 using InventoryService.Dtos;
 using InventoryService.Entities;
@@ -16,23 +17,32 @@ namespace InventoryService.Controllers
     [ApiController]
     public class BookUserController : ControllerBase
     {
-        private IRepository<BookUserEntity> bookUserRepository;
+        private readonly IRepository<BookUserEntity> bookUserRepository;
+        private readonly BookCatalogClient bookCatalogClient;
 
-        public BookUserController(IRepository<BookUserEntity> bookUserRepository)
+        public BookUserController(IRepository<BookUserEntity> bookUserRepository, BookCatalogClient bookCatalogClient)
         {
             this.bookUserRepository = bookUserRepository;
+            this.bookCatalogClient = bookCatalogClient;
         }
 
         // get all books from a user
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookUserDto>>> GetBooksByUserId(Guid userId)
+        public async Task<ActionResult<IEnumerable<BookUserDto>>> GetBooksByUserIdAsync(Guid userId)
         {
             if (userId == Guid.Empty)
                 return BadRequest();
 
-            var books = (await bookUserRepository.GetAllAsync(bookUser => bookUser.UserId == userId))
-                            .Select(book => book.AsDto());
-            return Ok(books);
+            var booksUsersEntities = (await bookUserRepository.GetAllAsync(bookUser => bookUser.UserId == userId));
+            var catalogBooks = await bookCatalogClient.GetCatalogBooksAsync();
+
+            var bookUserDtos = booksUsersEntities.Select(booksUsersEntity =>
+            {
+                var catalogBook = catalogBooks.Single(catalogBook => catalogBook.Id == booksUsersEntity.BookId);
+                return booksUsersEntity.AsDto(catalogBook.Title, catalogBook.InitialPrice);
+            });
+
+            return Ok(bookUserDtos);
         }
 
         [HttpPost]

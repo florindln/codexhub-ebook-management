@@ -15,7 +15,7 @@ namespace BookService.Controllers
     {
         private static List<BookDto> books = new List<BookDto>()
         {
-            new BookDto(Guid.NewGuid(),"testtile","testauthor","testdescription",5.0 ),
+            new BookDto(Guid.Parse("65abc189-c324-0b8f-01bb-f0a6dde6e1d5"),"testtile","testauthor","testdescription",5.0 ),
             new BookDto(Guid.NewGuid(),"testtile","testauthor","testdescription",5.0 ),
         };
 

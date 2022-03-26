@@ -9,7 +9,7 @@ namespace InventoryService.Conversion
 {
     public static class Conversion
     {
-        public static BookUserDto AsDto(this BookUserEntity entity) =>
-            new BookUserDto(entity.BookId, entity.BoughtAt);
+        public static BookUserDto AsDto(this BookUserEntity entity, string title, double initialPrice) =>
+            new BookUserDto(entity.BookId, entity.BoughtAt, title, initialPrice);
     }
 }

@@ -1,10 +1,12 @@
 using CodexhubCommon.MongoDB;
+using InventoryService.Clients;
 using InventoryService.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace InventoryService
 {
@@ -21,6 +23,11 @@ namespace InventoryService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMongo().AddMongoRepository<BookUserEntity>("bookuser");
+            services.AddHttpClient<BookCatalogClient>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5002");
+            });
+
             services.AddControllers().AddNewtonsoftJson().AddJsonOptions(
         options => options.JsonSerializerOptions.PropertyNamingPolicy = null); ;
             services.AddSwaggerGen();

@@ -1,4 +1,5 @@
-using Common.Settings;
+using CodexhubCommon.MassTransit;
+using CodexhubCommon.Settings;
 using MassTransit;
 using MassTransit.Definition;
 using Microsoft.AspNetCore.Builder;
@@ -32,17 +33,7 @@ namespace BookService
         {
             serviceSettings = Configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
 
-            services.AddMassTransit(x =>
-            {
-                x.UsingRabbitMq((context, configurator) =>
-                {
-                    var rabbitMQSettings = Configuration.GetSection(nameof(RabbitMQSettings)).Get<RabbitMQSettings>();
-                    configurator.Host(rabbitMQSettings.Host);
-                    configurator.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter(serviceSettings.ServiceName, false));
-                });
-            });
-
-            services.AddMassTransitHostedService();
+            services.AddMassTransitWithRabbitMq();
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen();

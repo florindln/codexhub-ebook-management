@@ -18,12 +18,14 @@ namespace InventoryService.Controllers
     public class BookUserController : ControllerBase
     {
         private readonly IRepository<BookUserEntity> bookUserRepository;
-        private readonly BookCatalogClient bookCatalogClient;
+        //private readonly BookCatalogClient bookCatalogClient;
+        private readonly IRepository<CatalogBook> catalogBookRepository;
 
-        public BookUserController(IRepository<BookUserEntity> bookUserRepository, BookCatalogClient bookCatalogClient)
+        public BookUserController(IRepository<BookUserEntity> bookUserRepository, IRepository<CatalogBook> catalogBookRepository, BookCatalogClient bookCatalogClient = null)
         {
             this.bookUserRepository = bookUserRepository;
-            this.bookCatalogClient = bookCatalogClient;
+            this.catalogBookRepository = catalogBookRepository;
+            //this.bookCatalogClient = bookCatalogClient;
         }
 
         // get all books from a user
@@ -34,7 +36,9 @@ namespace InventoryService.Controllers
                 return BadRequest();
 
             var booksUsersEntities = (await bookUserRepository.GetAllAsync(bookUser => bookUser.UserId == userId));
-            var catalogBooks = await bookCatalogClient.GetCatalogBooksAsync();
+            //var catalogBooks = await bookCatalogClient.GetCatalogBooksAsync();
+            var bookIds = booksUsersEntities.Select(bookUser => bookUser.BookId);
+            var catalogBooks = await catalogBookRepository.GetAllAsync(book => bookIds.Contains(book.Id));
 
             var bookUserDtos = booksUsersEntities.Select(booksUsersEntity =>
             {

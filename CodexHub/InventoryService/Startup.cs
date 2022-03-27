@@ -17,6 +17,7 @@ namespace InventoryService
 {
     public class Startup
     {
+        private const string AllowedOriginSetting = "AllowedOrigin";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -45,6 +46,13 @@ namespace InventoryService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseCors(builder =>
+                {
+                    builder.WithOrigins(Configuration[AllowedOriginSetting])
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
             }
 
             app.UseRouting();

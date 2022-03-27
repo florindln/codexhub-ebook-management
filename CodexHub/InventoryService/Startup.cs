@@ -1,3 +1,4 @@
+using CodexhubCommon.MassTransit;
 using CodexhubCommon.MongoDB;
 using InventoryService.Clients;
 using InventoryService.Entities;
@@ -26,36 +27,12 @@ namespace InventoryService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMongo().AddMongoRepository<BookUserEntity>("bookuser");
-            services.AddHttpClient<BookCatalogClient>(client =>
-            {
-                client.BaseAddress = new Uri("http://localhost:5002");
-            });/*
-                .AddTransientHttpErrorPolicy(builder => builder.Or<TimeoutRejectedException>().WaitAndRetryAsync(
-                    5,
-                    retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
-                    onRetry: (outcome, timespan, retryAttempt) =>
-                    {
-                        var serviceProvider = services.BuildServiceProvider();
-                        serviceProvider.GetService<ILogger<BookCatalogClient>>()?
-                        .LogWarning($"Delaying for {timespan.TotalSeconds} seconds, then making retry {retryAttempt}");
-                    }))
-                .AddTransientHttpErrorPolicy(builder => builder.Or<TimeoutRejectedException>().CircuitBreakerAsync(
-                    3,
-                    TimeSpan.FromSeconds(15),
-                    onBreak: (outcome, timespan) =>
-                    {
-                        var serviceProvider = services.BuildServiceProvider();
-                        serviceProvider.GetService<ILogger<BookCatalogClient>>()?
-                        .LogWarning($"Opening the circuit for {timespan.TotalSeconds} seconds");
-                    },
-                    onReset: () =>
-                    {
-                        var serviceProvider = services.BuildServiceProvider();
-                        serviceProvider.GetService<ILogger<BookCatalogClient>>()?
-                        .LogWarning($"Closing the circuit");
-                    }))
-                .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(1));*/
+            services.AddMongo()
+                .AddMongoRepository<BookUserEntity>("bookuser")
+                .AddMongoRepository<CatalogBook>("catalogbooks")
+                .AddMassTransitWithRabbitMq();
+
+            //AddBookClient(services);
 
             services.AddControllers().AddNewtonsoftJson().AddJsonOptions(
         options => options.JsonSerializerOptions.PropertyNamingPolicy = null); ;
@@ -85,6 +62,38 @@ namespace InventoryService
             {
                 endpoints.MapControllers();
             });
+        }
+        private static void AddBookClient(IServiceCollection services)
+        {
+            services.AddHttpClient<BookCatalogClient>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5002");
+            })
+                            .AddTransientHttpErrorPolicy(builder => builder.Or<TimeoutRejectedException>().WaitAndRetryAsync(
+                                5,
+                                retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                                onRetry: (outcome, timespan, retryAttempt) =>
+                                {
+                                    var serviceProvider = services.BuildServiceProvider();
+                                    serviceProvider.GetService<ILogger<BookCatalogClient>>()?
+                                    .LogWarning($"Delaying for {timespan.TotalSeconds} seconds, then making retry {retryAttempt}");
+                                }))
+                            .AddTransientHttpErrorPolicy(builder => builder.Or<TimeoutRejectedException>().CircuitBreakerAsync(
+                                3,
+                                TimeSpan.FromSeconds(15),
+                                onBreak: (outcome, timespan) =>
+                                {
+                                    var serviceProvider = services.BuildServiceProvider();
+                                    serviceProvider.GetService<ILogger<BookCatalogClient>>()?
+                                    .LogWarning($"Opening the circuit for {timespan.TotalSeconds} seconds");
+                                },
+                                onReset: () =>
+                                {
+                                    var serviceProvider = services.BuildServiceProvider();
+                                    serviceProvider.GetService<ILogger<BookCatalogClient>>()?
+                                    .LogWarning($"Closing the circuit");
+                                }))
+                            .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(1));
         }
     }
 }

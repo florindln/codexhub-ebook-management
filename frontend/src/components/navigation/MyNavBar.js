@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   Container,
@@ -14,6 +14,7 @@ import InputBase from "@mui/material/InputBase";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material/";
 import { Link } from "react-router-dom";
+import "./MyNavBar.css";
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
@@ -39,10 +40,16 @@ function MyNavBar() {
     navigate("/information");
   }
 
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const showDropdownFunc = (e) => {
+    setShowDropdown(true);
+  };
+
   return (
     <div>
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand as={Link} to="/">
+        <Navbar.Brand as={Link} to="/" className="px-4">
           <img
             alt=""
             src={CodexHubLogo}
@@ -54,25 +61,45 @@ function MyNavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
+            <Nav.Link as={Link} to="/" className="pad2horiz">
+              Home
+            </Nav.Link>{" "}
+            <Nav.Link as={Link} to="/MyBooks" className="pad2horiz">
+              My Books
+            </Nav.Link>
+            <NavDropdown
+              // show={showDropdown}
+              // onMouseEnter={showDropdownFunc}
+              // onMouseLeave={() => setShowDropdown(false)}
+              title="Browse"
+              id="basic-nav-dropdown"
+            >
+              <NavDropdown.Item as={Link} to="#action/3.1">
+                Recommendations
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="#action/3.1">
+                Lists
+              </NavDropdown.Item>{" "}
+              <NavDropdown.Item as={Link} to="#action/3.1">
+                Filter
+              </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">
                 Separated link
               </NavDropdown.Item>
             </NavDropdown>
-            <Form className="d-flex px-4" onSubmit={() => GoHome()}>
+            <Form className="d-flex pad2horiz" onSubmit={() => GoHome()}>
               <Form.Control type="text" placeholder="Search books" />
-              <Button variant="primary" type="submit">
-                <i class="fas fa-search"></i>
+              <Button type="submit">
+                <i className="fas fa-search"></i>
               </Button>
             </Form>
+            <Nav.Link as={Link} to="/SignUp" className="pad2horiz">
+              Join
+            </Nav.Link>
+            <Nav.Link as={Link} to="/SignIn" className="pad2horiz">
+              Login
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

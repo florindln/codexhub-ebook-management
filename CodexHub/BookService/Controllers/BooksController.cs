@@ -1,11 +1,16 @@
 ﻿using BookService.Dtos;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using static Contracts.Contracts;
+using static Contracts.Secrets;
+using BookService.Conversions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,7 +26,10 @@ namespace BookService.Controllers
             new BookDto(Guid.NewGuid(),"testtile","testauthor","testdescription",5.0 ),
         };
 
+        private static readonly HttpClient httpClient = new HttpClient();
         private readonly IPublishEndpoint publishEndpoint;
+
+        private const string BOOK_PROVIDER_BASE_URL = "https://www.googleapis.com/books/v1";
 
         public BooksController(IPublishEndpoint publishEndpoint)
         {
@@ -45,6 +53,18 @@ namespace BookService.Controllers
                 return NotFound();
 
             return book;
+        }
+
+        [HttpGet("PullBooks")]
+        public async Task<dynamic> GetBooksFromAPI(string name)
+        {
+            var res = await httpClient.GetAsync(
+                BOOK_PROVIDER_BASE_URL + "/volumes?q=" + name + $"&key={GOOGLE_API_KEY}");
+
+            var content = await res.Content.ReadAsStringAsync();
+            var books = Conversion.GoogleAPIContentToBooks(content);
+
+            return books;
         }
 
         // POST api/<BookController>

@@ -11,8 +11,12 @@ namespace BookService.Entities
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
-        public string Author { get; set; }
+        public List<string> Authors { get; set; }
         public string Description { get; set; }
+        public int PageCount { get; set; }
+        public DateTime PublishedDate { get; set; }
+        public string Category { get; set; }
+        public string ThumbnailURL { get; set; }
         public double InitialPrice { get; set; }
 
     }

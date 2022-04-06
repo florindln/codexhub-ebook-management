@@ -1,3 +1,4 @@
+using BookService.Data;
 using CodexhubCommon.MassTransit;
 using CodexhubCommon.Settings;
 using MassTransit;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,6 +36,12 @@ namespace BookService
             serviceSettings = Configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
 
             services.AddMassTransitWithRabbitMq();
+            services.AddDbContext<BookDbContext>(options =>
+            {
+                var mysqlConnectionString = Configuration.GetConnectionString("MySql");
+                var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
+                options.UseMySql(mysqlConnectionString, serverVersion);
+            });
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen();

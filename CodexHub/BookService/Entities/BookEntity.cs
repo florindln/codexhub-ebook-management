@@ -9,15 +9,35 @@ namespace BookService.Entities
 {
     public class BookEntity : IEntity
     {
+        [Required]
         public Guid Id { get; set; }
-        public string Title { get; set; }
-        public List<string> Authors { get; set; }
-        public string Description { get; set; }
-        public int PageCount { get; set; }
-        public DateTime PublishedDate { get; set; }
-        public string Category { get; set; }
-        public string ThumbnailURL { get; set; }
-        public double InitialPrice { get; set; }
 
+        [Required]
+        [MaxLength(200)]
+        public string Title { get; set; }
+
+        [Required]
+        public List<Author> Authors { get; set; }
+
+        [Required]
+        [MaxLength(10000)]
+        public string Description { get; set; }
+
+        [Required]
+        public int PageCount { get; set; }
+
+        [Required]
+        public DateTime PublishedDate { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string Category { get; set; }
+
+        [Required]
+        [MaxLength(200)]
+        public string ThumbnailURL { get; set; }
+
+        [Required]
+        public double InitialPrice { get; set; }
     }
 }

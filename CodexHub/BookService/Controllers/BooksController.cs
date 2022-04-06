@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using static Contracts.Contracts;
 using static Contracts.Secrets;
 using BookService.Conversions;
+using BookService.Data;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,12 +29,15 @@ namespace BookService.Controllers
 
         private static readonly HttpClient httpClient = new HttpClient();
         private readonly IPublishEndpoint publishEndpoint;
+        private readonly BookDbContext bookDbContext;
 
         private const string BOOK_PROVIDER_BASE_URL = "https://www.googleapis.com/books/v1";
 
-        public BooksController(IPublishEndpoint publishEndpoint)
+
+        public BooksController(IPublishEndpoint publishEndpoint, BookDbContext bookDbContext)
         {
             this.publishEndpoint = publishEndpoint;
+            this.bookDbContext = bookDbContext;
         }
 
         // GET: api/<BookController>
@@ -63,6 +67,9 @@ namespace BookService.Controllers
 
             var content = await res.Content.ReadAsStringAsync();
             var books = Conversion.GoogleAPIContentToBooks(content);
+
+            bookDbContext.AddRange(books);
+            bookDbContext.SaveChanges();
 
             return books;
         }

@@ -33,7 +33,7 @@ namespace BookService.Conversions
                 DateTime dateValue;
                 books.Add(new BookEntity
                 {
-                    Authors = authors,
+                    Authors = authors.Select(name => new Author { Name = name, }).ToList(),
                     Category = category,
                     Description = description,
                     InitialPrice = random.Next(1, 50),

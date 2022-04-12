@@ -1,4 +1,5 @@
-﻿using BookService.Entities;
+﻿using BookService.Dtos;
+using BookService.Entities;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,10 @@ namespace BookService.Conversions
 {
     public static class Conversion
     {
+        public static BookDto AsDto(this BookEntity bookEntity)
+        {
+            return new BookDto(bookEntity.Id, bookEntity.Title, bookEntity.Authors.Select(author => author.Name).ToList(), bookEntity.Description, bookEntity.PageCount, bookEntity.PublishedDate, bookEntity.Category, bookEntity.ThumbnailURL, bookEntity.InitialPrice);
+        }
         public static List<BookEntity> GoogleAPIContentToBooks(string content)
         {
             JObject obj = JObject.Parse(content);

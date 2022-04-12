@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookService.Dtos
 {
-    public record BookDto(Guid Id, [Required] string Title, [Required] string Author, [Required] string Description,
-        [Required] double InitialPrice);
-    public record CreateBookDto([Required] string Title, [Required] string Author, [Required] string Description,
-        [Required][Range(0, double.MaxValue)] double InitialPrice);
-    public record UpdateBookDto([Range(0, double.MaxValue)] double InitialPrice);
+    public record BookDto(Guid Id, string Title, List<string> Authors, string Description,
+         int PageCount, DateTime PublishedDate, string Category, string ThumbnailURL, double InitialPrice);
+    public record CreateBookDto(string Title, string Author, string Description,
+         double InitialPrice);
+    public record UpdateBookDto(double InitialPrice, string Description);
 }

@@ -17,7 +17,7 @@ namespace BookService.Entities
         public string Title { get; set; }
 
         [Required]
-        public List<Author> Authors { get; set; }
+        public List<Author> Authors { get; set; } = new List<Author>();
 
         [Required]
         [MaxLength(10000)]

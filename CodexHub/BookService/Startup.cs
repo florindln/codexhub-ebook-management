@@ -1,3 +1,4 @@
+using BookService.AppServices;
 using BookService.Data;
 using CodexhubCommon.MassTransit;
 using CodexhubCommon.Settings;
@@ -43,6 +44,10 @@ namespace BookService
                 options.UseMySql(mysqlConnectionString, serverVersion);
             });
 
+            services.AddScoped<BookApp>();
+            services.AddScoped<BookRepository>();
+
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<BookController>>());
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen();
         }

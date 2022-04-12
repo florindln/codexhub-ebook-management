@@ -12,6 +12,8 @@ using static Contracts.Contracts;
 using static Contracts.Secrets;
 using BookService.Conversions;
 using BookService.Data;
+using BookService.AppServices;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,37 +23,32 @@ namespace BookService.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private static List<BookDto> books = new List<BookDto>()
-        {
-            new BookDto(Guid.Parse("65abc189-c324-0b8f-01bb-f0a6dde6e1d5"),"testtile","testauthor","testdescription",5.0 ),
-            new BookDto(Guid.NewGuid(),"testtile","testauthor","testdescription",5.0 ),
-        };
-
         private static readonly HttpClient httpClient = new HttpClient();
         private readonly IPublishEndpoint publishEndpoint;
-        private readonly BookDbContext bookDbContext;
+        private readonly BookApp bookApp;
+        private readonly ILogger logger;
 
         private const string BOOK_PROVIDER_BASE_URL = "https://www.googleapis.com/books/v1";
 
-
-        public BooksController(IPublishEndpoint publishEndpoint, BookDbContext bookDbContext)
+        public BooksController(IPublishEndpoint publishEndpoint, BookApp bookApp, ILogger logger)
         {
             this.publishEndpoint = publishEndpoint;
-            this.bookDbContext = bookDbContext;
+            this.bookApp = bookApp;
+            this.logger = logger;
         }
 
         // GET: api/<BookController>
         [HttpGet]
-        public IEnumerable<BookDto> Get()
+        public async Task<IEnumerable<BookDto>> GetAllAsync()
         {
-            return books;
+            return await bookApp.GetAllBooks();
         }
 
         // GET api/<BookController>/5
         [HttpGet("{id}")]
-        public ActionResult<BookDto> GetById(Guid id)
+        public async Task<ActionResult<BookDto>> GetByIdAsync(Guid id)
         {
-            var book = books.Where(x => x.Id == id).SingleOrDefault();
+            var book = await bookApp.GetBook(id);
 
             if (book == null)
                 return NotFound();
@@ -60,7 +57,7 @@ namespace BookService.Controllers
         }
 
         [HttpGet("PullBooks")]
-        public async Task<dynamic> GetBooksFromAPI(string name)
+        public async Task GetBooksFromAPI(string name)
         {
             var res = await httpClient.GetAsync(
                 BOOK_PROVIDER_BASE_URL + "/volumes?q=" + name + $"&key={GOOGLE_API_KEY}");
@@ -68,43 +65,38 @@ namespace BookService.Controllers
             var content = await res.Content.ReadAsStringAsync();
             var books = Conversion.GoogleAPIContentToBooks(content);
 
-            bookDbContext.AddRange(books);
-            bookDbContext.SaveChanges();
-
-            return books;
+            await bookApp.CreateBooks(books);
         }
 
-        // POST api/<BookController>
-        [HttpPost]
-        public async Task<IActionResult> Post(CreateBookDto book)
-        {
-            var newbook = new BookDto(Guid.NewGuid(), book.Title, book.Author, book.Description, book.InitialPrice);
-            books.Add(newbook);
+        //// POST api/<BookController>
+        //[HttpPost]
+        //public async Task<IActionResult> Post(CreateBookDto book)
+        //{
+        //    var newbook = new BookDto(Guid.NewGuid(), book.Title, book.Author, book.Description, book.InitialPrice);
+        //    books.Add(newbook);
 
-            await publishEndpoint.Publish(new CatalogBookCreated(newbook.Id, newbook.Title, newbook.InitialPrice));
+        //    await publishEndpoint.Publish(new CatalogBookCreated(newbook.Id, newbook.Title, newbook.InitialPrice));
 
-            return CreatedAtAction(nameof(GetById), new { id = newbook.Id }, newbook);
-        }
+        //    return CreatedAtAction(nameof(GetById), new { id = newbook.Id }, newbook);
+        //}
 
         // PUT api/<BookController>/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id, UpdateBookDto updateBookDto)
         {
-            var existingBook = books.Where(x => x.Id == id).SingleOrDefault();
+            var updatedBook = await bookApp.UpdateBook(id, updateBookDto);
 
-            if (existingBook == null)
+            if (updatedBook == null)
                 return NotFound();
 
-            var updatedBook = existingBook with
+            try
             {
-                InitialPrice = updateBookDto.InitialPrice,
-            };
-
-            var index = books.FindIndex(x => x.Id == id);
-            books[index] = updatedBook;
-
-            await publishEndpoint.Publish(new CatalogBookUpdated(id, updatedBook.InitialPrice));
-
+                await publishEndpoint.Publish(new CatalogBookUpdated(id, updatedBook.InitialPrice));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message);
+            }
 
             return Ok(updatedBook);
         }
@@ -113,12 +105,7 @@ namespace BookService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var index = books.FindIndex(x => x.Id == id);
-
-            if (index < 0)
-                return NotFound();
-
-            books.RemoveAt(index);
+            await bookApp.DeleteBook(id);
 
             await publishEndpoint.Publish(new CatalogBookDeleted(id));
 

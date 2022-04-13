@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookService.Data
 {
-    public class BookRepository : IRepository<BookEntity>
+    public class BookRepository :  IBookRepository
     {
         private readonly BookDbContext bookDbContext;
 

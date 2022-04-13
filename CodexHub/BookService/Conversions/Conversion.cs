@@ -12,6 +12,9 @@ namespace BookService.Conversions
     {
         public static BookDto AsDto(this BookEntity bookEntity)
         {
+            if (bookEntity is null)
+                return null;
+
             return new BookDto(bookEntity.Id, bookEntity.Title, bookEntity.Authors.Select(author => author.Name).ToList(), bookEntity.Description, bookEntity.PageCount, bookEntity.PublishedDate, bookEntity.Category, bookEntity.ThumbnailURL, bookEntity.InitialPrice);
         }
         public static List<BookEntity> GoogleAPIContentToBooks(string content)

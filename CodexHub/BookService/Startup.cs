@@ -1,5 +1,8 @@
 using BookService.AppServices;
+using BookService.Controllers;
 using BookService.Data;
+using BookService.Entities;
+using CodexhubCommon;
 using CodexhubCommon.MassTransit;
 using CodexhubCommon.Settings;
 using MassTransit;
@@ -45,9 +48,9 @@ namespace BookService
             });
 
             services.AddScoped<BookApp>();
-            services.AddScoped<BookRepository>();
+            services.AddScoped<IBookRepository, BookRepository>();
 
-            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<BookController>>());
+            services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<BooksController>>());
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen();
         }

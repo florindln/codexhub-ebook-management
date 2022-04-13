@@ -12,9 +12,9 @@ namespace BookService.AppServices
 {
     public class BookApp
     {
-        private readonly BookRepository repository;
+        private readonly IBookRepository repository;
 
-        public BookApp(BookRepository repository)
+        public BookApp(IBookRepository repository)
         {
             this.repository = repository;
         }
@@ -25,10 +25,10 @@ namespace BookService.AppServices
             return bookEntities.Select(bookEntity => bookEntity.AsDto());
         }
 
-        public async Task<BookDto> GetBook(Guid id)
+        public async Task<BookEntity> GetBook(Guid id)
         {
             var book = await repository.GetAsync(id);
-            return book.AsDto();
+            return book;
         }
 
         public async Task CreateBooks(List<BookEntity> books)
@@ -46,25 +46,25 @@ namespace BookService.AppServices
             await repository.CreateRangeAsync(res);
         }
 
-        public async Task<BookDto> UpdateBook(Guid id, UpdateBookDto updateBookDto)
+        public async Task<BookEntity> UpdateBook(Guid id, UpdateBookDto updateBookDto)
         {
             var existingBook = await this.GetBook(id);
 
             if (existingBook == null)
                 return null;
 
-            var updatedBook = existingBook with
-            {
-                Description = updateBookDto.Description,
-                InitialPrice = updateBookDto.InitialPrice,
-            };
+            var updatedBook = existingBook;
+            updatedBook.Description = updateBookDto.Description;
+            updatedBook.InitialPrice = updateBookDto.InitialPrice;
+
+            await repository.UpdateAsync(updatedBook);
 
             return updatedBook;
         }
 
-        internal Task DeleteBook(Guid id)
+        public async Task DeleteBook(Guid id)
         {
-            throw new NotImplementedException();
+            await repository.DeleteAsync(id);
         }
     }
 }

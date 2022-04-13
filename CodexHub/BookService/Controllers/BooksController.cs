@@ -53,7 +53,7 @@ namespace BookService.Controllers
             if (book == null)
                 return NotFound();
 
-            return book;
+            return book.AsDto();
         }
 
         [HttpGet("PullBooks")]

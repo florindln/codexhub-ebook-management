@@ -107,7 +107,15 @@ namespace BookService.Controllers
         {
             await bookApp.DeleteBook(id);
 
-            await publishEndpoint.Publish(new CatalogBookDeleted(id));
+            try
+            {
+                await publishEndpoint.Publish(new CatalogBookDeleted(id));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message);
+            }
+
 
             return NoContent();
         }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookService.Data
 {
-    public class BookRepository :  IBookRepository
+    public class BookRepository : IBookRepository
     {
         private readonly BookDbContext bookDbContext;
 
@@ -33,8 +33,13 @@ namespace BookService.Data
         public async Task DeleteAsync(Guid id)
         {
             BookEntity book = new BookEntity { Id = id };
-            bookDbContext.Remove(book);
-            await bookDbContext.SaveChangesAsync();
+            bookDbContext.Books.Remove(book);
+            try
+            {
+                await bookDbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            { }
         }
 
         public async Task<IReadOnlyCollection<BookEntity>> GetAllAsync()

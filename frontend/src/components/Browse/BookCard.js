@@ -24,6 +24,7 @@ function BookCard(props) {
     authors: ["author1", "author2"],
     description: "description2",
     pageCount: 300,
+    initialPrice: 0,
     publishedDate: "publishedDate",
     thumbnailUrl: "https://picsum.photos/200",
   });
@@ -48,8 +49,11 @@ function BookCard(props) {
                   <span className="pe-2">{book.pageCount} pages |</span>
                   <span>Published on {book.publishedDate}</span>
                 </Card.Text>
-                <Card.Link href="#">Buy</Card.Link>
-                <Card.Link href="#">Another Link</Card.Link>
+                <Card.Text>
+                  <span className="pe-3">InitialPrice {book.initialPrice}</span>
+                  <Card.Link href="#">Buy</Card.Link>
+                  <Card.Link href="#">Another Link</Card.Link>
+                </Card.Text>
               </Card.Body>
             </Card>
           </Col>

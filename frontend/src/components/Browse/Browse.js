@@ -16,6 +16,7 @@ function Browse() {
       authors: ["author1", "author1"],
       description: "description",
       pageCount: 300,
+      initialPrice: 300,
       publishedDate: "publishedDate",
       thumbnailUrl: "https://picsum.photos/200",
     },

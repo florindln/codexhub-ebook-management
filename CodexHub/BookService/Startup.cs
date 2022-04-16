@@ -53,6 +53,8 @@ namespace BookService
             services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<BooksController>>());
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen();
+
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +64,9 @@ namespace BookService
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(
+      options => options.WithOrigins("http://localhost:3009").AllowAnyMethod());
 
             app.UseRouting();
 

@@ -19,21 +19,36 @@ function BookCard(props) {
   useEffect(() => {
     setBook(props.book);
   });
-  const [book, setBook] = useState({});
+  const [book, setBook] = useState({
+    title: "title2",
+    authors: ["author1", "author2"],
+    description: "description2",
+    pageCount: 300,
+    publishedDate: "publishedDate",
+    thumbnailUrl: "https://picsum.photos/200",
+  });
   return (
     <div>
-      <Container style={styles.container}>
+      <Container className="my-3" style={styles.grid}>
         <Row style={styles.row}>
-          <Col xs={6} className="d-flex justify-content-center">
-            <img src="https://picsum.photos/200" alt="" />
+          <Col xs={4} className="d-flex justify-content-center">
+            <img src={book.thumbnailUrl} alt="" />
           </Col>
-          <Col xs={6}>
+          <Col xs={8} style={styles.col}>
             <Card>
               <Card.Body>
                 <Card.Title>{book.title}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">b</Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">
+                  {book.authors.map((author) => (
+                    <span className="pe-2">{author}</span>
+                  ))}
+                </Card.Subtitle>
                 <Card.Text>{book.description}</Card.Text>
-                <Card.Link href="#">Card Link</Card.Link>
+                <Card.Text>
+                  <span className="pe-2">{book.pageCount} pages |</span>
+                  <span>Published on {book.publishedDate}</span>
+                </Card.Text>
+                <Card.Link href="#">Buy</Card.Link>
                 <Card.Link href="#">Another Link</Card.Link>
               </Card.Body>
             </Card>

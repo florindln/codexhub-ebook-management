@@ -33,8 +33,8 @@ function Browse() {
     <div>
       <Container fluid>
         <Row>
-          <Col md={3}></Col>
-          <Col md={6} className="d-flex justify-content-start">
+          <Col md={2}></Col>
+          <Col md={8} className="d-flex justify-content-start">
             <Container>
               <Row className="py-3">
                 <h2>Browse all books</h2>
@@ -62,7 +62,7 @@ function Browse() {
               </Row>
             </Container>
           </Col>
-          <Col md={3}></Col>
+          <Col md={2}></Col>
         </Row>
       </Container>
     </div>

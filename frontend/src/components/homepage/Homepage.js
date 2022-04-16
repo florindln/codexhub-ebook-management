@@ -1,7 +1,5 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoffee } from "@fortawesome/free-solid-svg-icons";
-import ebooks from "../images/ebooks.jpg";
+import ebooks from "../../images/ebooks.jpg";
 import { Button, Col, Container, Row } from "react-bootstrap";
 
 function Homepage() {
@@ -35,10 +33,10 @@ function Homepage() {
             >
               <Container>
                 <Row>
-                  <h1>Codexhub</h1>
+                  <h1 className="text-center">Codexhub</h1>
                 </Row>
                 <Row>
-                  <h2>Look for ebooks now!</h2>
+                  <h2 className="text-center">Look for ebooks now!</h2>
                 </Row>
                 <Row>
                   <Col className="d-flex justify-content-end">
@@ -52,21 +50,23 @@ function Homepage() {
             </div>
           </Col>
           <Col md={6} style={styles.col}>
-            <img className="img-fluid" src={ebooks} />
+            <img alt="rightpart" className="img-fluid" src={ebooks} />
           </Col>
         </Row>
         <Row style={{ minHeight: "150px" }}>
           <Col className="my-auto">
-            <h3>Don't know what to read next?</h3>
-            <h6>
+            <h3 className="text-center">Don't know what to read next?</h3>
+            <h6 className="text-center">
               You’re in the right place. Tell us what titles or genres you’ve
               enjoyed in the past, and we’ll give you surprisingly insightful
               recommendations.
             </h6>
           </Col>
           <Col className="my-auto">
-            <h3>Discover</h3>
-            <h6>Try exploring books liked by others and more</h6>
+            <h3 className="text-center">Discover</h3>
+            <h6 className="text-center">
+              Try exploring books liked by others and more
+            </h6>
           </Col>
         </Row>
       </Container>

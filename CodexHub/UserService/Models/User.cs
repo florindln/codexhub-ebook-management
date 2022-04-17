@@ -9,14 +9,16 @@ namespace UserService.Models
 {
     public class User
     {
-        public User(Guid id, string firstName, string lastName, string email, Maybe<List<string>> interests)
+        public User(Guid id, string firstName, string lastName, string email, string password, Maybe<List<string>> interests, string role)
         {
             Id = id;
             FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
             LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
             Email = email ?? throw new ArgumentNullException(nameof(email));
+            Password = password ?? throw new ArgumentNullException(nameof(email));
             Interests = interests;
             CreatedAt = DateTime.Now;
+            Role = role;
         }
         public Guid Id { get; set; }
 
@@ -25,6 +27,9 @@ namespace UserService.Models
         public string LastName { get; }
 
         public string Email { get; }
+
+        public string Password { get; }
+        public string Role { get; }
 
         public Maybe<List<string>> Interests { get; }
 

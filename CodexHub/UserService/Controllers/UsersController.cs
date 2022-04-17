@@ -1,5 +1,6 @@
-﻿using Common;
+﻿using CodexhubCommon;
 using Functional.Maybe;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using UserService.Models;
 
 namespace UserService.Controllers
 {
+    [Authorize]
     [Route("v1/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -52,6 +54,11 @@ namespace UserService.Controllers
             if (userDto.Id != Guid.Empty)
                 throw new ArgumentException("Cannot provide id when creating an user");
 
+            var existingUser = await userRepository.GetAsync(user => user.Email == userDto.Email);
+
+            if (existingUser != null)
+                return Conflict(new { message = "User with the same email already exists" });
+
             userDto.Id = Guid.NewGuid();
 
             var user = userDto.AsModel();
@@ -71,7 +78,7 @@ namespace UserService.Controllers
                 return NotFound();
 
             var user = new User(existing.Id, existing.FirstName, existing.LastName,
-                updateUserDto.Email, updateUserDto.Interests.ToMaybe());
+                updateUserDto.Email, existing.Password, updateUserDto.Interests.ToMaybe(), existing.Role);
 
             await userRepository.UpdateAsync(user.AsData());
 

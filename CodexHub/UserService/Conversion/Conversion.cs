@@ -12,9 +12,9 @@ namespace UserService.Conversion
     public static class Conversion
     {
         public static User AsModel(this UserDto userDto) =>
-            new User(userDto.Id, userDto.FirstName, userDto.LastName, userDto.Email, userDto.Interests.ToMaybe());
+            new User(userDto.Id, userDto.FirstName, userDto.LastName, userDto.Email, userDto.Password, userDto.Interests.ToMaybe(), "User");
         public static User AsModel(this UserEntity userEntity) =>
-            new User(userEntity.Id, userEntity.FirstName, userEntity.LastName, userEntity.Email, userEntity.Interests.ToMaybe());
+            new User(userEntity.Id, userEntity.FirstName, userEntity.LastName, userEntity.Email, userEntity.Password, userEntity.Interests.ToMaybe(), userEntity.Role);
 
         public static UserDto AsDto(this User user) =>
             new UserDto
@@ -24,16 +24,19 @@ namespace UserService.Conversion
                 Id = user.Id,
                 LastName = user.LastName,
                 Interests = user.Interests.OrElse(new List<string>()),
+                Role = user.Role
             };
 
         public static UserEntity AsData(this User user) =>
             new UserEntity
             {
                 Email = user.Email,
+                Password = user.Password,
                 FirstName = user.FirstName,
                 Id = user.Id,
                 LastName = user.LastName,
                 Interests = user.Interests.OrElse(new List<string>()),
+                Role = user.Role,
             };
 
         public static void NotNull<T>(this T value)

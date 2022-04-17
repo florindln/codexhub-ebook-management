@@ -1,4 +1,4 @@
-﻿using Common;
+﻿using CodexhubCommon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +17,13 @@ namespace UserService.Entities
 
         public string Email { get; set; }
 
+        public string Password { get; set; }
+
+        public string Role { get; set; }
+
         public List<string> Interests { get; set; }
 
-        public DateTime CreatedAt { get; }
+        public DateTime CreatedAt { get; } = DateTime.Now;
 
     }
 }

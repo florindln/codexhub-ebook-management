@@ -61,8 +61,6 @@ namespace UserService.Controllers
             if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password))
                 return BadRequest(new { message = "Invalid credentials" });
 
-            user.Password = loginDto.Password;
-
             var token = jwtAuthenticationManager.Authenticate(user);
 
             if (token is null)

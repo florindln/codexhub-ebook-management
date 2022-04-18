@@ -15,7 +15,7 @@ using UserService.Models;
 
 namespace UserService.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("v1/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase

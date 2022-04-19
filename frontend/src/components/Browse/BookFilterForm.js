@@ -36,7 +36,7 @@ function BookFilterForm() {
           ></Form.Check>
         </Form.Group>
         <Row className="mb-3">
-          <h5>Published date</h5>
+          <h5>Published year</h5>
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>From</Form.Label>
             <Form.Control />
@@ -53,7 +53,7 @@ function BookFilterForm() {
         {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
           <Form.Check type="checkbox" label="Check me out" />
         </Form.Group> */}
-        <div className="d-flex justify-content-end">
+        <div className="d-flex justify-content-end mt-3">
           <Button variant="primary" type="submit">
             Submit
           </Button>

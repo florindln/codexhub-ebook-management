@@ -35,3 +35,10 @@ export const LoginRequest = (email, password) => {
     { headers }
   );
 };
+
+export const Register = async (data) => {
+  // console.log(data);
+  return axios.post(process.env.REACT_APP_GATEWAY + "/auth/register", data, {
+    headers,
+  });
+};

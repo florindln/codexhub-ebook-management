@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Dropdown, Form, Row } from "react-bootstrap";
+import { GetAllBooks } from "services/APIService";
 import BookCard from "./BookCard";
 import BookFilterForm from "./BookFilterForm";
 import SvgArrow from "./SvgArrow";
+import "./Browse.css";
 
 function Browse() {
   const [dropdownToggled, setDropdownToggled] = useState(false);
@@ -10,7 +12,13 @@ function Browse() {
     setDropdownToggled(!dropdownToggled);
   };
 
-  const books = [
+  useEffect(() => {
+    GetAllBooks().then((response) => {
+      setBooks(response.data);
+    });
+  }, []);
+
+  const defaultBooks = [
     {
       title: "title",
       authors: ["author1", "author1"],
@@ -30,6 +38,8 @@ function Browse() {
     },
   ];
 
+  const [books, setBooks] = useState(defaultBooks);
+
   return (
     <div>
       <Container fluid>
@@ -40,7 +50,7 @@ function Browse() {
               <Row className="py-3">
                 <h2>Browse all books</h2>
               </Row>
-              <Row className="border border-dark rounded py-3">
+              <Row className="border border-dark rounded py-3 nicehover">
                 <Col onClick={handleFilter} xs={1}>
                   <div className="" style={{ width: "5rem" }}>
                     <SvgArrow right={dropdownToggled} />
@@ -49,9 +59,9 @@ function Browse() {
                 <Col
                   onClick={handleFilter}
                   xs={11}
-                  className="d-flex justify-content-start align-items-center"
+                  className="d-flex justify-content-start align-items-center "
                 >
-                  <h2 className="ps-3"> Filter all books</h2>
+                  <h2 className=" ps-3"> Filter all books</h2>
                 </Col>
                 {dropdownToggled && <BookFilterForm />}
               </Row>

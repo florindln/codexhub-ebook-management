@@ -5,13 +5,14 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Link, useNavigate } from "react-router-dom";
+import { Register } from "services/APIService";
 
 function Copyright(props) {
   return (
@@ -22,13 +23,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link
-        color="inherit"
-        href="https://www.google.com/search?q=google+codexhub&oq=google+codexhub&aqs=chrome..69i57j69i64l2.3272j0j7&sourceid=chrome&ie=UTF-8"
-      >
-        CodexHub
-      </Link>{" "}
-      {new Date().getFullYear()}
+      <Link to="/">CodexHub</Link> {new Date().getFullYear()}
       {"."}
     </Typography>
   );
@@ -36,13 +31,30 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
+export default function SignUp() {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    // console.log({
+    //   email: data.get("email"),
+    //   firstname: data.get("firstname"),
+    //   lastname: data.get("lastname"),
+    //   interests: data.get("interests"),
+    //   password: data.get("password"),
+    // });
+    const interestsArr = data.get("interests").split(",");
+    const registerData = {
       email: data.get("email"),
+      firstName: data.get("firstname"),
+      lastName: data.get("lastname"),
+      interests: interestsArr,
       password: data.get("password"),
+    };
+
+    await Register(registerData).then(() => {
+      navigate("/SignIn");
     });
   };
 
@@ -84,6 +96,33 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
+              id="firstname"
+              label="First name"
+              name="firstname"
+              autoComplete="firstname"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="lastname"
+              label="Last name"
+              name="lastname"
+              autoComplete="lastname"
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              id="interests"
+              label="Interests (comma separated)"
+              name="interests"
+              autoComplete="interests"
+            />
+
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               name="password"
               label="Password"
               type="password"
@@ -101,9 +140,7 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Already have an account? Sign In"}
-                </Link>
+                <Link to="/SignIn">Already have an account? Sign In</Link>
               </Grid>
             </Grid>
           </Box>

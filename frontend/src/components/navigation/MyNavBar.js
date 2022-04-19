@@ -41,18 +41,24 @@ function MyNavBar() {
     navigate("/information");
   }
 
-  const [showDropdown, setShowDropdown] = useState(false);
+  // const [showDropdown, setShowDropdown] = useState(false);
   const [permissionRole, setPermissionRole] = useState("");
 
   useEffect(() => {
     const role = AuthService.getUserRole();
     setPermissionRole(role);
     // console.log("role: " + role);
-    console.log("permissionRole: " + permissionRole);
-  });
+    // console.log("permissionRole: " + permissionRole);
+  }, []);
 
-  const showDropdownFunc = (e) => {
-    setShowDropdown(true);
+  // const showDropdownFunc = (e) => {
+  //   setShowDropdown(true);
+  // };
+
+  const logout = () => {
+    AuthService.logout();
+    navigate("/");
+    document.location.reload();
   };
 
   return (
@@ -70,6 +76,16 @@ function MyNavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
+            {permissionRole === "User" && (
+              <NavDropdown title="Admin" id="basic-nav-dropdown">
+                <NavDropdown.Item as={Link} to="/AdminTable">
+                  Books
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="#action/3.1">
+                  Lists
+                </NavDropdown.Item>{" "}
+              </NavDropdown>
+            )}
             <Nav.Link as={Link} to="/" className="pad2horiz">
               Home
             </Nav.Link>{" "}
@@ -83,7 +99,7 @@ function MyNavBar() {
               title="Browse"
               id="basic-nav-dropdown"
             >
-              <NavDropdown.Item as={Link} to="/AdminTable">
+              <NavDropdown.Item as={Link} to="/stuff">
                 Recommendations
               </NavDropdown.Item>
               <NavDropdown.Item as={Link} to="#action/3.1">
@@ -114,9 +130,19 @@ function MyNavBar() {
               </>
             ) : (
               <>
-                <Nav.Link as={Link} to="/UserProfile" className="me-3">
+                <NavDropdown
+                  title={<i className="fas fa-user"></i>}
+                  id="basic-nav-dropdown"
+                  drop="start"
+                >
+                  <NavDropdown.Item as={Link} to="/Profile">
+                    Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>{" "}
+                </NavDropdown>
+                {/* <Nav.Link as={Link} to="/UserProfile" className="me-3">
                   <i className="fas fa-user"></i>
-                </Nav.Link>{" "}
+                </Nav.Link>{" "} */}
               </>
             )}
           </Nav>

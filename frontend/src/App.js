@@ -8,6 +8,7 @@ import React from "react";
 import Footer from "components/Footer/Footer";
 import Homepage from "components/homepage/Homepage";
 import Browse from "components/Browse/Browse";
+import AdminBookTable from "components/Admin/Book/AdminBookTable";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/MyBooks" element={<Browse />} />
+        <Route path="/AdminTable" element={<AdminBookTable />} />
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/SignUp" element={<SignUp />} />
       </Routes>

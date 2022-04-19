@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   Container,
@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material/";
 import { Link } from "react-router-dom";
 import "./MyNavBar.css";
+import AuthService from "services/AuthService";
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
@@ -41,6 +42,14 @@ function MyNavBar() {
   }
 
   const [showDropdown, setShowDropdown] = useState(false);
+  const [permissionRole, setPermissionRole] = useState("");
+
+  useEffect(() => {
+    const role = AuthService.getUserRole();
+    setPermissionRole(role);
+    // console.log("role: " + role);
+    console.log("permissionRole: " + permissionRole);
+  });
 
   const showDropdownFunc = (e) => {
     setShowDropdown(true);
@@ -74,7 +83,7 @@ function MyNavBar() {
               title="Browse"
               id="basic-nav-dropdown"
             >
-              <NavDropdown.Item as={Link} to="#action/3.1">
+              <NavDropdown.Item as={Link} to="/AdminTable">
                 Recommendations
               </NavDropdown.Item>
               <NavDropdown.Item as={Link} to="#action/3.1">
@@ -94,12 +103,22 @@ function MyNavBar() {
                 <i className="fas fa-search"></i>
               </Button>
             </Form>
-            <Nav.Link as={Link} to="/SignUp" className="pad2horiz">
-              Join
-            </Nav.Link>
-            <Nav.Link as={Link} to="/SignIn" className="pad2horiz">
-              Login
-            </Nav.Link>
+            {permissionRole == "" ? (
+              <>
+                <Nav.Link as={Link} to="/SignUp" className="pad2horiz">
+                  Join
+                </Nav.Link>
+                <Nav.Link as={Link} to="/SignIn" className="pad2horiz">
+                  Login
+                </Nav.Link>{" "}
+              </>
+            ) : (
+              <>
+                <Nav.Link as={Link} to="/UserProfile" className="me-3">
+                  <i className="fas fa-user"></i>
+                </Nav.Link>{" "}
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

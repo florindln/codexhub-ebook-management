@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Dropdown, Form, Row } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { GetAllBooks } from "services/APIService";
 import BookCard from "./BookCard";
 import BookFilterForm from "./BookFilterForm";
@@ -7,17 +7,6 @@ import SvgArrow from "./SvgArrow";
 import "./Browse.css";
 
 function Browse() {
-  const [dropdownToggled, setDropdownToggled] = useState(false);
-  const handleFilter = () => {
-    setDropdownToggled(!dropdownToggled);
-  };
-
-  useEffect(() => {
-    GetAllBooks().then((response) => {
-      setBooks(response.data);
-    });
-  }, []);
-
   const defaultBooks = [
     {
       title: "title",
@@ -38,7 +27,22 @@ function Browse() {
     },
   ];
 
+  const [dropdownToggled, setDropdownToggled] = useState(false);
   const [books, setBooks] = useState(defaultBooks);
+
+  const handleFilter = () => {
+    setDropdownToggled(!dropdownToggled);
+  };
+
+  useEffect(() => {
+    GetAllBooks().then((response) => {
+      setBooks(response.data);
+    });
+  }, []);
+
+  const handleFilterBooks = (books) => {
+    setBooks(books);
+  };
 
   return (
     <div>
@@ -63,7 +67,9 @@ function Browse() {
                 >
                   <h2 className=" ps-3"> Filter all books</h2>
                 </Col>
-                {dropdownToggled && <BookFilterForm />}
+                {dropdownToggled && (
+                  <BookFilterForm onHandleFilterBooks={handleFilterBooks} />
+                )}
               </Row>
               <Row>
                 {books.map((book, index) => (

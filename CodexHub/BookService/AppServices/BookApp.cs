@@ -6,6 +6,7 @@ using CodexhubCommon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace BookService.AppServices
@@ -22,6 +23,12 @@ namespace BookService.AppServices
         public async Task<IEnumerable<BookDto>> GetAllBooks()
         {
             var bookEntities = await repository.GetAllAsync();
+            return bookEntities.Select(bookEntity => bookEntity.AsDto());
+        }
+
+        public async Task<IEnumerable<BookDto>> GetAllBooks(Expression<Func<BookEntity, bool>> filter)
+        {
+            var bookEntities = await repository.GetAllAsync(filter);
             return bookEntities.Select(bookEntity => bookEntity.AsDto());
         }
 

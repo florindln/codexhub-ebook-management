@@ -44,6 +44,33 @@ namespace BookService.Controllers
             return await bookApp.GetAllBooks();
         }
 
+        //[HttpGet("Filter")]
+        //public async Task<IEnumerable<BookDto>> GetAllAsync(string pageCountMin, string pageCountMax, string publishedYearMin, string publishedYearMax, [FromQuery(Name = "genres[]")] string[] genres)
+        //{
+        //    var books = await bookApp.GetAllBooks();
+        //    var filtered = books.Where(book => pageCountMin == null || Convert.ToInt32(pageCountMin) < book.PageCount)
+        //    .Where(book => pageCountMax == null || Convert.ToInt32(pageCountMax) > book.PageCount)
+        //    .Where(book => publishedYearMin == null || Convert.ToInt32(publishedYearMin) < book.PublishedDate.Year)
+        //    .Where(book => publishedYearMax == null || Convert.ToInt32(publishedYearMax) > book.PublishedDate.Year)
+        //    .Where(book => genres.Count() == 0 || genres.Contains(book.Category));
+
+        //    return filtered;
+        //}
+
+        [HttpGet("Filter")]
+        public async Task<IEnumerable<BookDto>> GetAllAsync(string pageCountMin, string pageCountMax, string publishedYearMin, string publishedYearMax, [FromQuery(Name = "genres[]")] string[] genres)
+        {
+            var books = await bookApp.GetAllBooks(book =>
+                (pageCountMin == null || Convert.ToInt32(pageCountMin) < book.PageCount) &&
+                (pageCountMax == null || Convert.ToInt32(pageCountMax) > book.PageCount) &&
+                (publishedYearMin == null || Convert.ToInt32(publishedYearMin) < book.PublishedDate.Year) &&
+                (publishedYearMax == null || Convert.ToInt32(publishedYearMax) > book.PublishedDate.Year) &&
+                (genres.Count() == 0 || genres.Contains(book.Category))
+                );
+
+            return books;
+        }
+
         // GET api/<BookController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<BookDto>> GetByIdAsync(Guid id)

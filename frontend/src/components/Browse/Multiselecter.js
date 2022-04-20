@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 
 const options = [
@@ -7,8 +7,16 @@ const options = [
   { label: "Strawberry 🍓", value: "strawberry", disabled: true },
 ];
 
-const Multiselecter = () => {
+const Multiselecter = (props) => {
   const [selected, setSelected] = useState([]);
+
+  useEffect(() => {
+    //get all book genres here then put them in options
+  }, []);
+
+  useEffect(() => {
+    props.onHandleSelectedGenres(selected);
+  }, [selected]);
 
   return (
     <div>

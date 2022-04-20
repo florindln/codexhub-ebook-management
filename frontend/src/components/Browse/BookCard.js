@@ -19,7 +19,7 @@ function BookCard(props) {
   };
   useEffect(() => {
     setBook(props.book);
-  });
+  }, [props.book]);
   const [book, setBook] = useState({
     id: "5eaa2d91-6997-4438-a985-30c7b9a73eec",
     title: "title2",
@@ -44,8 +44,10 @@ function BookCard(props) {
                   <Link to={"/books/" + book.id}>{book.title}</Link>
                 </Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
-                  {book.authors.map((author) => (
-                    <span className="pe-2">{author}</span>
+                  {book.authors.map((author, index) => (
+                    <span className="pe-2" key={index}>
+                      {author}
+                    </span>
                   ))}
                 </Card.Subtitle>
                 <Card.Text>

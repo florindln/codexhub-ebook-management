@@ -19,37 +19,36 @@ export const GetAllBooks = () => {
   return axios.get(process.env.REACT_APP_GATEWAY + "/books");
 };
 
+export const FilterBooks = (params) => {
+  return axios.get(process.env.REACT_APP_GATEWAY + "/books/filter", {
+    params: params,
+  });
+};
+
 export const GetBookById = (id) => {
   return axios.get(process.env.REACT_APP_GATEWAY + "/books/" + id);
 };
 
 export const DeleteBook = (id) => {
-  return axios.delete(process.env.REACT_APP_GATEWAY + "/books/" + id, {
-    headers,
-  });
+  return axios.delete(process.env.REACT_APP_GATEWAY + "/books/" + id);
 };
 
 export const EditBook = (id, data) => {
-  return axios.put(process.env.REACT_APP_GATEWAY + "/books/" + id, data, {
-    headers,
-  });
+  return axios.put(process.env.REACT_APP_GATEWAY + "/books/" + id, data);
 };
 
 //Auth
 
 export const LoginRequest = (email, password) => {
-  return axios.post(
-    process.env.REACT_APP_GATEWAY + "/auth/login",
-    { email: email, password: password },
-    { headers }
-  );
+  return axios.post(process.env.REACT_APP_GATEWAY + "/auth/login", {
+    email: email,
+    password: password,
+  });
 };
 
 export const Register = async (data) => {
   // console.log(data);
-  return axios.post(process.env.REACT_APP_GATEWAY + "/auth/register", data, {
-    headers,
-  });
+  return axios.post(process.env.REACT_APP_GATEWAY + "/auth/register", data);
 };
 
 //Users

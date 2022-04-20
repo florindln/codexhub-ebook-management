@@ -80,6 +80,18 @@
       "UpstreamHttpMethod": [ "Get", "Post" ]
     },
     {
+      "DownstreamPathTemplate": "/v1/books/filter?{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/books/filter?{everything}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
       "DownstreamPathTemplate": "/v1/books/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -95,6 +107,7 @@
       "UpstreamPathTemplate": "/books/{id}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     }
+
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:5021"

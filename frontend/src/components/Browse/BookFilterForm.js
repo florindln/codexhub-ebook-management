@@ -1,37 +1,99 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Button, Col, Row } from "react-bootstrap";
+import { FilterBooks } from "services/APIService";
 import Multiselecter from "./Multiselecter";
 
-function BookFilterForm() {
+function BookFilterForm(props) {
+  const [filterOptions, setFilterOptions] = useState({
+    pageCountMin: null,
+    pageCountMax: null,
+    publishedYearMin: null,
+    publishedYearMax: null,
+    genres: [],
+  });
+
+  const radioChanged = (event) => {
+    switch (event.target.value) {
+      case "150-radio":
+        setFilterOptions((values) => ({
+          ...values,
+          pageCountMax: 150,
+          pageCountMin: null,
+        }));
+        break;
+      case "150-300-radio":
+        setFilterOptions((values) => ({
+          ...values,
+          pageCountMin: 150,
+          pageCountMax: 300,
+        }));
+        break;
+      case "300-radio":
+        setFilterOptions((values) => ({
+          ...values,
+          pageCountMin: 300,
+          pageCountMax: null,
+        }));
+        break;
+      default:
+        console.log("radio button error no valid choice");
+    }
+  };
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setFilterOptions((values) => ({
+      ...values,
+      [name]: parseInt(value),
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // console.log(filterOptions);
+    FilterBooks(filterOptions).then((books) => {
+      // console.log(books.data);
+      props.onHandleFilterBooks(books.data);
+    });
+  };
+
+  const handleSelectedGenres = (items: Array) => {
+    let itemValues = [];
+    items.forEach((item) => {
+      itemValues.push(item.value);
+    });
+    // console.log(itemValues);
+    setFilterOptions((values) => ({
+      ...values,
+      genres: itemValues,
+    }));
+  };
   return (
     <div>
-      <Form className="px-3 py-3">
-        {/* <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
-        </Form.Group> */}
-        <Form.Group className="mb-3">
+      <Form className="px-3 py-3" onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" onChange={radioChanged}>
           <Form.Label>Page count</Form.Label>
           <br />
           <Form.Check
             inline
             name="pageRadio"
             type="radio"
+            value="150-radio"
             label="<150"
           ></Form.Check>
           <Form.Check
             inline
             name="pageRadio"
             type="radio"
+            value="150-300-radio"
             label="150-300"
           ></Form.Check>
           <Form.Check
             inline
             name="pageRadio"
             type="radio"
+            value="300-radio"
             label=">300"
           ></Form.Check>
         </Form.Group>
@@ -39,15 +101,33 @@ function BookFilterForm() {
           <h5>Published year</h5>
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>From</Form.Label>
-            <Form.Control />
+            <Form.Control
+              name="publishedYearMin"
+              placeholder="Min"
+              onChange={handleChange}
+              value={
+                filterOptions.publishedYearMin === null
+                  ? ""
+                  : filterOptions.publishedYearMin
+              }
+            />
           </Form.Group>
           <Form.Group as={Col} controlId="formGridZip">
             <Form.Label>To</Form.Label>
-            <Form.Control />
+            <Form.Control
+              name="publishedYearMax"
+              placeholder="Max"
+              onChange={handleChange}
+              value={
+                filterOptions.publishedYearMax === null
+                  ? ""
+                  : filterOptions.publishedYearMax
+              }
+            />
           </Form.Group>
         </Row>
         <Form.Group>
-          <Multiselecter />
+          <Multiselecter onHandleSelectedGenres={handleSelectedGenres} />
         </Form.Group>
 
         {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">

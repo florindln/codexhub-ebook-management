@@ -77,7 +77,7 @@ namespace UserService.Controllers
             if (existing == null)
                 return NotFound();
 
-            var user = new User(existing.Id, existing.FirstName, existing.LastName,
+            var user = new User(existing.Id, updateUserDto.FirstName, updateUserDto.LastName,
                 updateUserDto.Email, existing.Password, updateUserDto.Interests.ToMaybe(), existing.Role);
 
             await userRepository.UpdateAsync(user.AsData());

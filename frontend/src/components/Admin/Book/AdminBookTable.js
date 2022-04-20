@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import MUIDataTable from "mui-datatables";
 import { DeleteBook, GetAllBooks } from "services/APIService";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function AdminBookTable() {
   useEffect(() => {
@@ -40,7 +42,12 @@ function AdminBookTable() {
     },
   ];
 
+  const navigate = useNavigate();
   const [books, setBooks] = useState(booksDefault);
+
+  const editBook = (book) => {
+    navigate("/books/" + book.id + "/edit", { state: book });
+  };
 
   const bookColumns = [
     {
@@ -82,6 +89,29 @@ function AdminBookTable() {
       label: "thumbnailURL",
       options: {},
     },
+    {
+      name: "Edit",
+      options: {
+        filter: true,
+        sort: false,
+        empty: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <Button
+              onClick={() => {
+                const bookId = tableMeta.rowData[0];
+                const book = books.find((book) => book.id === bookId);
+
+                // console.log(book);
+                editBook(book);
+              }}
+            >
+              Edit
+            </Button>
+          );
+        },
+      },
+    },
   ];
 
   const options = {
@@ -92,6 +122,11 @@ function AdminBookTable() {
       //   console.log(bookId); //do axios call to delete book
       DeleteBook(bookId);
     },
+    // onColumnSortChange: (changedColumn, direction) =>
+    //   console.log("changedColumn: ", changedColumn, "direction: ", direction),
+    // onChangeRowsPerPage: (numberOfRows) =>
+    //   console.log("numberOfRows: ", numberOfRows),
+    // onChangePage: (currentPage) => console.log("currentPage: ", currentPage),
   };
 
   return (

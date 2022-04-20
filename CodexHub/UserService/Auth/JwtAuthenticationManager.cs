@@ -27,6 +27,7 @@ namespace UserService.Auth
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
+                    new Claim("id",userEntity.Id.ToString()),
                     new Claim(ClaimTypes.Email, userEntity.Email),
                     new Claim(ClaimTypes.Role, userEntity.Role),
                 }),

@@ -16,12 +16,21 @@ axios.interceptors.request.use(function (config) {
 //Books API
 
 export const GetAllBooks = () => {
-  //   console.log(process.env.REACT_APP_GATEWAY + "/books");
   return axios.get(process.env.REACT_APP_GATEWAY + "/books");
+};
+
+export const GetBookById = (id) => {
+  return axios.get(process.env.REACT_APP_GATEWAY + "/books/" + id);
 };
 
 export const DeleteBook = (id) => {
   return axios.delete(process.env.REACT_APP_GATEWAY + "/books/" + id, {
+    headers,
+  });
+};
+
+export const EditBook = (id, data) => {
+  return axios.put(process.env.REACT_APP_GATEWAY + "/books/" + id, data, {
     headers,
   });
 };
@@ -41,4 +50,13 @@ export const Register = async (data) => {
   return axios.post(process.env.REACT_APP_GATEWAY + "/auth/register", data, {
     headers,
   });
+};
+
+//Users
+export const GetUserById = (id) => {
+  return axios.get(process.env.REACT_APP_GATEWAY + "/users/" + id);
+};
+
+export const EditUser = (id, data) => {
+  return axios.put(process.env.REACT_APP_GATEWAY + "/users/" + id, data);
 };

@@ -22,9 +22,14 @@ class AuthService {
     let token = Cookies.get("Authorization");
     if (token !== undefined) {
       let decoded = jwt_decode(token);
-      return { token: token, role: decoded.role };
+
+      if (decoded.exp * 1000 < Date.now()) {
+        this.logout();
+        return { id: "", token: "", role: "" };
+      }
+      return { id: decoded.id, token: token, role: decoded.role };
     } else {
-      return { token: "", role: "" };
+      return { id: "", token: "", role: "" };
     }
   }
 

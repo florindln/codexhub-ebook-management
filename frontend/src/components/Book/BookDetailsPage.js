@@ -1,16 +1,18 @@
 import { Rating } from "@mui/material";
+import Comments from "components/Comments/Comments";
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { GetBookById } from "services/APIService";
+import { DiscussionEmbed } from "disqus-react";
 
 function BookDetailsPage() {
   const { id } = useParams();
   const [book, setBook] = useState({
-    id: "59444c98-9e37-4632-befb-f0598d9f4067",
-    title: "Longarm Quilting Workbook",
-    authors: ["Teresa Silva"],
-    description: "Learn to Longarm with Confidence! Go",
+    id: "59444c98-9e37-4632-befb",
+    title: "Test",
+    authors: ["Teresa Silva", "Another"],
+    description: "desc! Go",
     pageCount: 144,
     publishedDate: "2017-10-04T00:00:00",
     category: "Crafts & Hobbies",
@@ -19,15 +21,14 @@ function BookDetailsPage() {
     initialPrice: 38,
   });
   const [rating, setRating] = useState(2);
-  const [comment, setComment] = useState({
-    commenterName: "",
-    date: "",
-    description: "",
-  });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // console.log(id);
-    GetBookById(id).then((response) => setBook(response.data));
+    GetBookById(id).then((response) => {
+      setBook(response.data);
+      setIsLoading(false);
+    });
   }, []);
   return (
     <div>
@@ -73,7 +74,9 @@ function BookDetailsPage() {
               <Col>
                 <h6>
                   {book.authors.map((author, index) => (
-                    <span className="me-3">{author}</span>
+                    <span key={index} className="me-3">
+                      {author}
+                    </span>
                   ))}
                 </h6>
               </Col>
@@ -91,6 +94,21 @@ function BookDetailsPage() {
             <Row>
               <Col>
                 <h3>Community comments</h3>
+                {/* <Comments
+                  commentsUrl="http://localhost:3004/comments"
+                  currentUserId="1"
+                /> */}
+                {/* {console.log(book.id, book.title)} */}
+                {!isLoading && (
+                  <DiscussionEmbed
+                    shortname="codexhub"
+                    config={{
+                      url: process.env.REACT_APP_CURRENT_URL,
+                      identifier: book.id,
+                      title: book.title,
+                    }}
+                  />
+                )}
               </Col>
             </Row>
           </Col>

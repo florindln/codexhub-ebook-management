@@ -53,6 +53,15 @@ namespace BookService.AppServices
             await repository.CreateRangeAsync(res);
         }
 
+        public async Task CreateBook(BookEntity book)
+        {
+            var existingBook = await repository.GetAsync(existing => existing.Title == book.Title);
+            if (existingBook != null)
+                throw new ArgumentException($"Book with title {book.Title} already exists");
+
+            await repository.CreateAsync(book);
+        }
+
         public async Task<BookEntity> UpdateBook(Guid id, UpdateBookDto updateBookDto)
         {
             var existingBook = await this.GetBook(id);

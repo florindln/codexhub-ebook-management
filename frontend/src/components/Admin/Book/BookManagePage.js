@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Form, Button, Container, Col, Row } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import { EditBook, GetBookById } from "services/APIService";
+import { CreateBook, EditBook, GetBookById } from "services/APIService";
 
 function BookManagePage(props) {
   const { state } = useLocation();
@@ -62,13 +62,30 @@ function BookManagePage(props) {
     }));
   };
 
+  const handleAuthorsChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    const authors = value.split(",");
+    // console.log(name, value);
+    setInputs((values) => ({
+      ...values,
+      [name]: authors,
+    }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // alert(inputs);
     // console.log(inputs);
-    EditBook(inputs.id, inputs).then(() => {
-      navigate(-1);
-    });
+    if (props.type === "edit") {
+      EditBook(inputs.id, inputs).then(() => {
+        navigate(-1);
+      });
+    } else {
+      CreateBook(inputs).then(() => {
+        navigate(-1);
+      });
+    }
   };
 
   return (
@@ -94,7 +111,7 @@ function BookManagePage(props) {
                   placeholder="Enter authors"
                   value={inputs.authors}
                   name="authors"
-                  onChange={handleChange}
+                  onChange={handleAuthorsChange}
                 />
               </Form.Group>
               <Form.Group className="mb-3">

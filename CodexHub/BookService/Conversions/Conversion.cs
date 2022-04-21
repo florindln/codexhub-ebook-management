@@ -17,6 +17,25 @@ namespace BookService.Conversions
 
             return new BookDto(bookEntity.Id, bookEntity.Title, bookEntity.Authors.Select(author => author.Name).ToList(), bookEntity.Description, bookEntity.PageCount, bookEntity.PublishedDate, bookEntity.Category, bookEntity.ThumbnailURL, bookEntity.InitialPrice);
         }
+
+        public static BookEntity AsEntity(this CreateBookDto bookDto)
+        {
+            if (bookDto is null)
+                return null;
+
+            return new BookEntity
+            {
+                Id = Guid.NewGuid(),
+                Authors = bookDto.Authors.Select(author => new Author { Name = author }).ToList(),
+                Category = bookDto.Category,
+                Description = bookDto.Description,
+                InitialPrice = bookDto.InitialPrice,
+                PageCount = bookDto.PageCount,
+                PublishedDate = bookDto.PublishedDate,
+                ThumbnailURL = bookDto.ThumbnailURL,
+                Title = bookDto.Title,
+            };
+        }
         public static List<BookEntity> GoogleAPIContentToBooks(string content)
         {
             JObject obj = JObject.Parse(content);

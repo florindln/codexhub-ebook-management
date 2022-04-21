@@ -96,17 +96,24 @@ namespace BookService.Controllers
             await bookApp.CreateBooks(books);
         }
 
-        //// POST api/<BookController>
-        //[HttpPost]
-        //public async Task<IActionResult> Post(CreateBookDto book)
-        //{
-        //    var newbook = new BookDto(Guid.NewGuid(), book.Title, book.Author, book.Description, book.InitialPrice);
-        //    books.Add(newbook);
+        // POST api/<BookController>
+        [HttpPost]
+        public async Task<IActionResult> Post(CreateBookDto bookDto)
+        {
+            var bookEntity = bookDto.AsEntity();
+            await bookApp.CreateBook(bookEntity);
 
-        //    await publishEndpoint.Publish(new CatalogBookCreated(newbook.Id, newbook.Title, newbook.InitialPrice));
+            try
+            {
+                await publishEndpoint.Publish(new CatalogBookCreated(bookEntity.Id, bookEntity.Title, bookEntity.InitialPrice));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message);
+            }
 
-        //    return CreatedAtAction(nameof(GetById), new { id = newbook.Id }, newbook);
-        //}
+            return CreatedAtAction(nameof(GetByIdAsync), bookEntity);
+        }
 
         // PUT api/<BookController>/5
         [HttpPut("{id}")]

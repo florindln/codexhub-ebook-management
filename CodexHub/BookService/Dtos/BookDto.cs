@@ -8,7 +8,8 @@ namespace BookService.Dtos
 {
     public record BookDto(Guid Id, string Title, List<string> Authors, string Description,
          int PageCount, DateTime PublishedDate, string Category, string ThumbnailURL, double InitialPrice);
-    public record CreateBookDto(string Title, string Author, string Description,
-         double InitialPrice);
+    public record CreateBookDto(string Title, List<string> Authors, string Description,
+         int PageCount, DateTime PublishedDate, string Category, string ThumbnailURL, double InitialPrice);
+
     public record UpdateBookDto(double InitialPrice, string Description);
 }

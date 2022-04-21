@@ -20,7 +20,7 @@ const Multiselecter = (props) => {
 
   return (
     <div>
-      <h4>Select Genres</h4>
+      <h5>Select Genres</h5>
       {/* <pre>{JSON.stringify(selected)}</pre> */}
       <MultiSelect
         options={options}

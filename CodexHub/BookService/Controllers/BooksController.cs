@@ -58,14 +58,15 @@ namespace BookService.Controllers
         //}
 
         [HttpGet("Filter")]
-        public async Task<IEnumerable<BookDto>> GetAllAsync(string pageCountMin, string pageCountMax, string publishedYearMin, string publishedYearMax, [FromQuery(Name = "genres[]")] string[] genres)
+        public async Task<IEnumerable<BookDto>> GetAllAsync(string title, string pageCountMin, string pageCountMax, string publishedYearMin, string publishedYearMax, [FromQuery(Name = "genres[]")] string[] genres)
         {
             var books = await bookApp.GetAllBooks(book =>
                 (pageCountMin == null || Convert.ToInt32(pageCountMin) < book.PageCount) &&
                 (pageCountMax == null || Convert.ToInt32(pageCountMax) > book.PageCount) &&
                 (publishedYearMin == null || Convert.ToInt32(publishedYearMin) < book.PublishedDate.Year) &&
                 (publishedYearMax == null || Convert.ToInt32(publishedYearMax) > book.PublishedDate.Year) &&
-                (genres.Count() == 0 || genres.Contains(book.Category))
+                (genres.Count() == 0 || genres.Contains(book.Category)) &&
+                (title == null || book.Title.Contains(title) || title.Contains(book.Title))
                 );
 
             return books;

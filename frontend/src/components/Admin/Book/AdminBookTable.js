@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import MUIDataTable from "mui-datatables";
 import { DeleteBook, GetAllBooks } from "services/APIService";
-import { Button } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { BookmarkAddSharp } from "@mui/icons-material";
 
 function AdminBookTable() {
   useEffect(() => {
@@ -46,7 +47,7 @@ function AdminBookTable() {
   const [books, setBooks] = useState(booksDefault);
 
   const editBook = (book) => {
-    navigate("/books/" + book.id + "/edit", { state: book });
+    navigate("/Books/" + book.id + "/edit", { state: book });
   };
 
   const bookColumns = [
@@ -114,6 +115,14 @@ function AdminBookTable() {
     },
   ];
 
+  const AddBookButton = () => (
+    <Tooltip disableFocusListener title="Add Book">
+      <IconButton onClick={() => navigate("/books/add")}>
+        <BookmarkAddSharp />
+      </IconButton>
+    </Tooltip>
+  );
+
   const options = {
     filterType: "checkbox",
     selectableRows: "single",
@@ -122,6 +131,7 @@ function AdminBookTable() {
       //   console.log(bookId); //do axios call to delete book
       DeleteBook(bookId);
     },
+    customToolbar: AddBookButton,
     // onColumnSortChange: (changedColumn, direction) =>
     //   console.log("changedColumn: ", changedColumn, "direction: ", direction),
     // onChangeRowsPerPage: (numberOfRows) =>

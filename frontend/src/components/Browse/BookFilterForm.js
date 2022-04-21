@@ -5,6 +5,7 @@ import Multiselecter from "./Multiselecter";
 
 function BookFilterForm(props) {
   const [filterOptions, setFilterOptions] = useState({
+    title: "",
     pageCountMin: null,
     pageCountMax: null,
     publishedYearMin: null,
@@ -40,12 +41,21 @@ function BookFilterForm(props) {
     }
   };
 
-  const handleChange = (event) => {
+  const handleChangeNumber = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setFilterOptions((values) => ({
       ...values,
       [name]: parseInt(value),
+    }));
+  };
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setFilterOptions((values) => ({
+      ...values,
+      [name]: value,
     }));
   };
 
@@ -73,7 +83,7 @@ function BookFilterForm(props) {
     <div>
       <Form className="px-3 py-3" onSubmit={handleSubmit}>
         <Form.Group className="mb-3" onChange={radioChanged}>
-          <Form.Label>Page count</Form.Label>
+          <Form.Label as="h5">Page count</Form.Label>
           <br />
           <Form.Check
             inline
@@ -98,13 +108,22 @@ function BookFilterForm(props) {
           ></Form.Check>
         </Form.Group>
         <Row className="mb-3">
+          <Form.Group className="mb-3" controlId="formGridCity">
+            <Form.Label as="h5">Title</Form.Label>
+            <Form.Control
+              name="title"
+              placeholder="Title"
+              onChange={handleChange}
+              value={filterOptions.title}
+            />
+          </Form.Group>
           <h5>Published year</h5>
           <Form.Group as={Col} controlId="formGridCity">
             <Form.Label>From</Form.Label>
             <Form.Control
               name="publishedYearMin"
               placeholder="Min"
-              onChange={handleChange}
+              onChange={handleChangeNumber}
               value={
                 filterOptions.publishedYearMin === null
                   ? ""
@@ -117,7 +136,7 @@ function BookFilterForm(props) {
             <Form.Control
               name="publishedYearMax"
               placeholder="Max"
-              onChange={handleChange}
+              onChange={handleChangeNumber}
               value={
                 filterOptions.publishedYearMax === null
                   ? ""

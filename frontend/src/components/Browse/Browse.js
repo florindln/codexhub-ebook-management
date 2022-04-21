@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { GetAllBooks } from "services/APIService";
+import { FilterBooks, GetAllBooks } from "services/APIService";
 import BookCard from "./BookCard";
 import BookFilterForm from "./BookFilterForm";
 import SvgArrow from "./SvgArrow";
 import "./Browse.css";
+import { useSearchParams } from "react-router-dom";
 
 function Browse() {
   const defaultBooks = [
@@ -29,16 +30,25 @@ function Browse() {
 
   const [dropdownToggled, setDropdownToggled] = useState(false);
   const [books, setBooks] = useState(defaultBooks);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const nameSearch = searchParams.get("name");
 
   const handleFilter = () => {
     setDropdownToggled(!dropdownToggled);
   };
 
   useEffect(() => {
-    GetAllBooks().then((response) => {
-      setBooks(response.data);
-    });
-  }, []);
+    if (nameSearch === null) {
+      GetAllBooks().then((response) => {
+        setBooks(response.data);
+      });
+    } else {
+      FilterBooks({ title: nameSearch }).then((response) => {
+        setBooks(response.data);
+      });
+      console.log(nameSearch);
+    }
+  }, [nameSearch]);
 
   const handleFilterBooks = (books) => {
     setBooks(books);

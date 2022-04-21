@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Navbar,
-  Container,
-  Nav,
-  NavDropdown,
-  Form,
-  InputGroup,
-} from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Form } from "react-bootstrap";
 import CodexHubLogo from "../../images/codexhubLogo.png";
-import { styled, alpha } from "@mui/material/styles";
-import SearchIcon from "@mui/icons-material/Search";
+import { styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material/";
@@ -37,12 +29,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function MyNavBar() {
   let navigate = useNavigate();
 
-  function GoHome() {
-    navigate("/information");
-  }
+  // function GoHome() {
+
+  //   navigate("/information");
+  // }
 
   // const [showDropdown, setShowDropdown] = useState(false);
   const [permissionRole, setPermissionRole] = useState("");
+  const [searchName, setSearchName] = useState("");
 
   useEffect(() => {
     const role = AuthService.getUserRole();
@@ -54,6 +48,12 @@ function MyNavBar() {
   // const showDropdownFunc = (e) => {
   //   setShowDropdown(true);
   // };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    navigate("/Browse?name=" + searchName);
+    setSearchName("");
+  };
 
   const logout = () => {
     AuthService.logout();
@@ -89,8 +89,8 @@ function MyNavBar() {
             <Nav.Link as={Link} to="/" className="pad2horiz">
               Home
             </Nav.Link>{" "}
-            <Nav.Link as={Link} to="/MyBooks" className="pad2horiz">
-              My Books
+            <Nav.Link as={Link} to="/Browse" className="pad2horiz">
+              Explore
             </Nav.Link>
             <NavDropdown
               // show={showDropdown}
@@ -113,13 +113,18 @@ function MyNavBar() {
                 Separated link
               </NavDropdown.Item>
             </NavDropdown>
-            <Form className="d-flex pad2horiz" onSubmit={() => GoHome()}>
-              <Form.Control type="text" placeholder="Search books" />
+            <Form className="d-flex pad2horiz" onSubmit={handleSearchSubmit}>
+              <Form.Control
+                type="text"
+                placeholder="Search books"
+                value={searchName}
+                onChange={(event) => setSearchName(event.target.value)}
+              />
               <Button type="submit">
                 <i className="fas fa-search"></i>
               </Button>
             </Form>
-            {permissionRole == "" ? (
+            {permissionRole === "" ? (
               <>
                 <Nav.Link as={Link} to="/SignUp" className="pad2horiz">
                   Join

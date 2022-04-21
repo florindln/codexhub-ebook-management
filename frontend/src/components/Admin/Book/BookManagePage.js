@@ -4,20 +4,33 @@ import { Form, Button, Container, Col, Row } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { EditBook, GetBookById } from "services/APIService";
 
-function BookEditPage() {
+function BookManagePage(props) {
   const { state } = useLocation();
   const navigate = useNavigate();
-  var {
-    id,
-    title,
-    authors,
-    description,
-    pageCount,
-    publishedDate,
-    category,
-    thumbnailURL,
-    initialPrice,
-  } = state;
+  try {
+    var {
+      id,
+      title,
+      authors,
+      description,
+      pageCount,
+      publishedDate,
+      category,
+      thumbnailURL,
+      initialPrice,
+    } = state;
+  } catch {
+    var id =
+      (title =
+      authors =
+      description =
+      pageCount =
+      publishedDate =
+      category =
+      thumbnailURL =
+      initialPrice =
+        "");
+  }
 
   const [inputs, setInputs] = useState({
     id: id,
@@ -32,9 +45,11 @@ function BookEditPage() {
   });
 
   useEffect(() => {
-    GetBookById(id).then((book) => {
-      setInputs(book.data);
-    });
+    if (props.type === "edit") {
+      GetBookById(id).then((book) => {
+        setInputs(book.data);
+      });
+    }
   }, [id]);
 
   const handleChange = (event) => {
@@ -62,7 +77,7 @@ function BookEditPage() {
         <Row>
           <Col md={2}></Col>
           <Col md={8}>
-            <h3>Edit book {inputs.title}</h3>
+            {props.type === "edit" ? <h3>Edit book </h3> : <h3>Create book</h3>}
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
                 <Form.Label>Title</Form.Label>
@@ -150,4 +165,4 @@ function BookEditPage() {
   );
 }
 
-export default BookEditPage;
+export default BookManagePage;

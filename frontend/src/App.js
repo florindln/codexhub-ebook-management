@@ -10,11 +10,12 @@ import Browse from "components/Browse/Browse";
 import AdminBookTable from "components/Admin/Book/AdminBookTable";
 import BookManagePage from "components/Admin/Book/BookManagePage";
 import ProfilePage from "components/Profile/ProfilePage";
+import BookDetailsPage from "components/Book/BookDetailsPage";
 
 function App() {
   return (
     <div className="App">
-      <div style={{ minHeight: "50rem" }}>
+      <div style={{ minHeight: "45rem" }}>
         <MyNavBar />
         <Routes>
           <Route path="/" element={<Homepage />} />
@@ -25,6 +26,7 @@ function App() {
           <Route path="/Profile" element={<ProfilePage />} />
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/Books/add" element={<BookManagePage type="create" />} />
+          <Route path="/Books/:id" element={<BookDetailsPage />} />
           <Route
             path="/Books/:id/edit"
             element={<BookManagePage type="edit" />}

@@ -41,7 +41,7 @@ function BookCard(props) {
             <Card>
               <Card.Body>
                 <Card.Title>
-                  <Link to={"/books/" + book.id}>{book.title}</Link>
+                  <Link to={"/Books/" + book.id}>{book.title}</Link>
                 </Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
                   {book.authors.map((author, index) => (

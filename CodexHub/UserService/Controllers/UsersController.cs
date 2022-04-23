@@ -1,5 +1,6 @@
 ﻿using CodexhubCommon;
 using Functional.Maybe;
+using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +11,7 @@ using UserService.Conversion;
 using UserService.Dtos;
 using UserService.Entities;
 using UserService.Models;
+using static Contracts.Contracts;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,10 +23,13 @@ namespace UserService.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IRepository<UserEntity> userRepository;
+        private readonly IPublishEndpoint publishEndpoint;
 
-        public UsersController(IRepository<UserEntity> userRepository)
+
+        public UsersController(IRepository<UserEntity> userRepository, IPublishEndpoint publishEndpoint)
         {
             this.userRepository = userRepository;
+            this.publishEndpoint = publishEndpoint;
         }
 
         // GET: api/<UsersController>
@@ -65,6 +70,9 @@ namespace UserService.Controllers
 
             await userRepository.CreateAsync(user.AsData());
 
+
+            await publishEndpoint.Publish(new CatalogUserCreated(user.Id, user.Email, user.Interests.OrElse(new List<string>())));
+
             return Created(nameof(GetByIdAsync), user);
         }
 
@@ -82,6 +90,8 @@ namespace UserService.Controllers
 
             await userRepository.UpdateAsync(user.AsData());
 
+            await publishEndpoint.Publish(new CatalogUserUpdated(user.Id, user.Interests.OrElse(new List<string>())));
+
             return user.AsDto();
         }
 
@@ -90,6 +100,8 @@ namespace UserService.Controllers
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             await userRepository.DeleteAsync(id);
+
+            await publishEndpoint.Publish(new CatalogUserDeleted(id));
 
             return NoContent();
         }

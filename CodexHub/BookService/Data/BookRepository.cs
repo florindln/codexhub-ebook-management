@@ -38,7 +38,7 @@ namespace BookService.Data
             {
                 await bookDbContext.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException)
             { }
         }
 

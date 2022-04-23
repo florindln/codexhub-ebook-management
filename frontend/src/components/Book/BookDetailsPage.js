@@ -3,8 +3,9 @@ import Comments from "components/Comments/Comments";
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { GetBookById } from "services/APIService";
+import { GetBookById, GetRatingByBookId, RateBook } from "services/APIService";
 import { DiscussionEmbed } from "disqus-react";
+import AuthService from "services/AuthService";
 
 function BookDetailsPage() {
   const { id } = useParams();
@@ -20,14 +21,25 @@ function BookDetailsPage() {
       "http://books.google.com/books/content?id=BhZjDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
     initialPrice: 38,
   });
-  const [rating, setRating] = useState(2);
+  const [averageRating, setAverageRating] = useState(1.5);
+  const [rating, setRating] = useState(1.5);
+  const [ratingInfo, setRatingInfo] = useState({
+    averageRating: 0,
+    ratingsCount: 0,
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // console.log(id);
     GetBookById(id).then((response) => {
       setBook(response.data);
       setIsLoading(false);
+      GetRatingByBookId(id).then((response) => {
+        // console.log(response.data);
+        setRatingInfo(response.data);
+        // console.log(ratingInfo);
+        setRating(response.data.averageRating);
+        setAverageRating(response.data.averageRating);
+      });
     });
   }, []);
   return (
@@ -51,13 +63,25 @@ function BookDetailsPage() {
                 </Button>
               </div>{" "}
               <div className="d-flex justify-content-center">
+                Average rating {averageRating.toString().substring(0, 3)} from{" "}
+                {ratingInfo.ratingsCount} people
+              </div>
+              <div className="d-flex justify-content-center">
                 <Rating
-                  name="simple-controlled"
+                  name="half-rating"
                   value={rating}
                   onChange={(event, newValue) => {
                     setRating(newValue);
-                    console.log(newValue);
+                    if (AuthService.getUserRole() != "") {
+                      RateBook({
+                        BookId: book.id,
+                        UserId: AuthService.getCurrentUser().id,
+                        Rating: newValue,
+                      });
+                    }
+                    // console.log(newValue);
                   }}
+                  precision={0.5}
                   size="large"
                 />
               </div>
@@ -99,11 +123,13 @@ function BookDetailsPage() {
                   currentUserId="1"
                 /> */}
                 {/* {console.log(book.id, book.title)} */}
+                {/* {!isLoading && console.log(book.id, book.title)} */}
                 {!isLoading && (
                   <DiscussionEmbed
-                    shortname="codexhub"
+                    shortname="codexhubebook2"
                     config={{
-                      url: process.env.REACT_APP_CURRENT_URL,
+                      url:
+                        process.env.REACT_APP_CURRENT_URL + "/Books/" + book.id,
                       identifier: book.id,
                       title: book.title,
                     }}

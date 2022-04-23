@@ -69,8 +69,6 @@ namespace InventoryService.Controllers
             }
             else
                 return BadRequest("User already owns the book");
-
-
         }
 
 

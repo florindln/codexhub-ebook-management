@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace InventoryService.Dtos
 {
-    public record BookUserDto(Guid bookId, DateTime boughtAt, string Title, double InitialPrice);
+    public record BookUserDto(Guid BookId, DateTime boughtAt, string Title, double InitialPrice);
     public record GrantBookDto(Guid UserId, Guid BookId);
     public record CatalogBookDto(Guid Id, string Title, double InitialPrice);
+
+    public record RatingDto(Guid BookId, Guid UserId, double Rating);
 }

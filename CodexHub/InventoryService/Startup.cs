@@ -31,6 +31,8 @@ namespace InventoryService
             services.AddMongo()
                 .AddMongoRepository<BookUserEntity>("bookuser")
                 .AddMongoRepository<CatalogBook>("catalogbooks")
+                .AddMongoRepository<CatalogUser>("catalogusers")
+                .AddMongoRepository<Rating>("ratings")
                 .AddMassTransitWithRabbitMq();
 
             //AddBookClient(services);

@@ -26,6 +26,7 @@ namespace InventoryService.Consumers
                 book = new CatalogBook
                 {
                     Id = message.Id,
+                    Description = message.Description,
                     InitialPrice = message.Price,
                 };
 
@@ -34,6 +35,7 @@ namespace InventoryService.Consumers
             else
             {
                 book.InitialPrice = message.Price;
+                book.Description = message.Description;
 
                 await repository.UpdateAsync(book);
             }

@@ -1,5 +1,6 @@
 ﻿using CodexhubCommon;
 using Functional.Maybe;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using UserService.Conversion;
 using UserService.Dtos;
 using UserService.Entities;
 using UserService.Models;
+using static Contracts.Contracts;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,11 +23,13 @@ namespace UserService.Controllers
     {
         private readonly IRepository<UserEntity> userRepository;
         private readonly JwtAuthenticationManager jwtAuthenticationManager;
+        private readonly IPublishEndpoint publishEndpoint;
 
-        public AuthController(IRepository<UserEntity> userRepository, JwtAuthenticationManager jwtAuthenticationManager)
+        public AuthController(IRepository<UserEntity> userRepository, JwtAuthenticationManager jwtAuthenticationManager, IPublishEndpoint publishEndpoint)
         {
             this.userRepository = userRepository;
             this.jwtAuthenticationManager = jwtAuthenticationManager;
+            this.publishEndpoint = publishEndpoint;
         }
 
         // POST api/<UsersController>
@@ -46,6 +50,8 @@ namespace UserService.Controllers
             var user = userDto.AsModel();
 
             await userRepository.CreateAsync(user.AsData());
+
+            await publishEndpoint.Publish(new CatalogUserCreated(user.Id, user.Email, user.Interests.OrElse(new List<string>())));
 
             return Created("register", user);
         }

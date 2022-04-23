@@ -29,6 +29,14 @@ export const GetBookById = (id) => {
   return axios.get(process.env.REACT_APP_GATEWAY + "/books/" + id);
 };
 
+export const GetRatingByBookId = (bookId) => {
+  return axios.get(process.env.REACT_APP_GATEWAY + "/rating/" + bookId);
+};
+
+export const RateBook = (data) => {
+  return axios.post(process.env.REACT_APP_GATEWAY + "/rating", data);
+};
+
 export const DeleteBook = (id) => {
   return axios.delete(process.env.REACT_APP_GATEWAY + "/books/" + id);
 };

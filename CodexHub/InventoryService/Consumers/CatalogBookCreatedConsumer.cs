@@ -29,6 +29,8 @@ namespace InventoryService.Consumers
                 Id = message.Id,
                 InitialPrice = message.InitialPrice,
                 Title = message.Title,
+                Description = message.Description,
+                Category = message.Category
             };
 
             await repository.CreateAsync(book);

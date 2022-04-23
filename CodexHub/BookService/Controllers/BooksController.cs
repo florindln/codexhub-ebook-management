@@ -94,6 +94,11 @@ namespace BookService.Controllers
             var books = Conversion.GoogleAPIContentToBooks(content);
 
             await bookApp.CreateBooks(books);
+
+            foreach (var book in books)
+            {
+                await publishEndpoint.Publish(new CatalogBookCreated(book.Id, book.Title, book.Description, book.InitialPrice, book.Category));
+            }
         }
 
         // POST api/<BookController>
@@ -103,16 +108,16 @@ namespace BookService.Controllers
             var bookEntity = bookDto.AsEntity();
             await bookApp.CreateBook(bookEntity);
 
-            try
-            {
-                await publishEndpoint.Publish(new CatalogBookCreated(bookEntity.Id, bookEntity.Title, bookEntity.InitialPrice));
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e.Message);
-            }
+            //try
+            //{
+            await publishEndpoint.Publish(new CatalogBookCreated(bookEntity.Id, bookEntity.Title, bookEntity.Description, bookEntity.InitialPrice, bookEntity.Category));
+            //}
+            //catch (Exception e)
+            //{
+            //    logger.LogError(e.Message);
+            //}
 
-            return CreatedAtAction(nameof(GetByIdAsync), bookEntity);
+            return Created(nameof(GetByIdAsync), bookEntity);
         }
 
         // PUT api/<BookController>/5
@@ -124,14 +129,14 @@ namespace BookService.Controllers
             if (updatedBook == null)
                 return NotFound();
 
-            try
-            {
-                await publishEndpoint.Publish(new CatalogBookUpdated(id, updatedBook.InitialPrice));
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e.Message);
-            }
+            //try
+            //{
+            await publishEndpoint.Publish(new CatalogBookUpdated(id, updatedBook.Description, updatedBook.InitialPrice));
+            //}
+            //catch (Exception e)
+            //{
+            //    logger.LogError(e.Message);
+            //}
 
             return Ok(updatedBook);
         }
@@ -142,14 +147,14 @@ namespace BookService.Controllers
         {
             await bookApp.DeleteBook(id);
 
-            try
-            {
-                await publishEndpoint.Publish(new CatalogBookDeleted(id));
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e.Message);
-            }
+            //try
+            //{
+            await publishEndpoint.Publish(new CatalogBookDeleted(id));
+            //}
+            //catch (Exception e)
+            //{
+            //    logger.LogError(e.Message);
+            //}
 
 
             return NoContent();

@@ -1,3 +1,4 @@
+using CodexhubCommon.MassTransit;
 using CodexhubCommon.MongoDB;
 using CodexhubCommon.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -29,6 +30,7 @@ namespace UserService
         {
             serviceSettings = Configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
 
+            services.AddMassTransitWithRabbitMq();
             services.AddMongo().AddMongoRepository<UserEntity>("users");
             services.AddSingleton<JwtAuthenticationManager>();
 
@@ -56,10 +58,19 @@ namespace UserService
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/error-development");
             }
+            else
+            {
+                app.UseExceptionHandler("/error");
+            }
+
 
             app.UseRouting();
 

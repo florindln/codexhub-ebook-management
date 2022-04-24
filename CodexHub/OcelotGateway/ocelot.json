@@ -80,6 +80,22 @@
       "UpstreamHttpMethod": [ "Get", "Post" ]
     },
     {
+      "DownstreamPathTemplate": "/v1/books/download/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "UpstreamPathTemplate": "/books/download/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
       "DownstreamPathTemplate": "/v1/books/filter?{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -107,22 +123,7 @@
       "UpstreamPathTemplate": "/books/{id}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     },
-    {
-      "DownstreamPathTemplate": "/v1/books/download/{id}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5002
-        }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "UpstreamPathTemplate": "/books/download/{id}",
-      "UpstreamHttpMethod": [ "Get" ]
-    },
+
     {
       "DownstreamPathTemplate": "/v1/Rating",
       "DownstreamScheme": "http",

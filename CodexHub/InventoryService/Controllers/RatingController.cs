@@ -44,6 +44,17 @@ namespace InventoryService.Controllers
             };
         }
 
+        [HttpGet("{bookId}/user/{userId}")]
+        public async Task<double> GetUserRating(Guid bookId, Guid userId)
+        {
+            var rating = await repository.GetAsync(rating => rating.UserId == userId && rating.BookId == bookId);
+
+            if (rating == null)
+                return 0f;
+
+            return rating.StarRating;
+        }
+
         // POST api/<RatingController>
         [HttpPost]
         public async Task<IActionResult> Post(RatingDto ratingDto)

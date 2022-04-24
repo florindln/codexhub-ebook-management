@@ -17,6 +17,7 @@ function Browse() {
       initialPrice: 300,
       publishedDate: "publishedDate",
       thumbnailUrl: "https://picsum.photos/200",
+      category: "category",
     },
     {
       title: "title2",
@@ -25,6 +26,7 @@ function Browse() {
       pageCount: 300,
       publishedDate: "publishedDate",
       thumbnailUrl: "https://picsum.photos/200",
+      category: "category2",
     },
   ];
 
@@ -54,6 +56,17 @@ function Browse() {
     setBooks(books);
   };
 
+  const extractCategoriesFromBooks = () => {
+    let genreList = [];
+    books.forEach((book) => {
+      if (!genreList.includes(book.category)) {
+        genreList.push(book.category);
+      }
+    });
+
+    return genreList;
+  };
+
   return (
     <div>
       <Container fluid>
@@ -78,7 +91,10 @@ function Browse() {
                   <h2 className=" ps-3"> Filter all books</h2>
                 </Col>
                 {dropdownToggled && (
-                  <BookFilterForm onHandleFilterBooks={handleFilterBooks} />
+                  <BookFilterForm
+                    categories={extractCategoriesFromBooks()}
+                    onHandleFilterBooks={handleFilterBooks}
+                  />
                 )}
               </Row>
               <Row>

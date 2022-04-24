@@ -146,7 +146,10 @@ function BookFilterForm(props) {
           </Form.Group>
         </Row>
         <Form.Group>
-          <Multiselecter onHandleSelectedGenres={handleSelectedGenres} />
+          <Multiselecter
+            categories={props.categories}
+            onHandleSelectedGenres={handleSelectedGenres}
+          />
         </Form.Group>
 
         {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">

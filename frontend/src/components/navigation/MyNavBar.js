@@ -81,9 +81,6 @@ function MyNavBar() {
                 <NavDropdown.Item as={Link} to="/AdminTable">
                   Books
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="#action/3.1">
-                  Lists
-                </NavDropdown.Item>{" "}
               </NavDropdown>
             )}
             <Nav.Link as={Link} to="/" className="pad2horiz">
@@ -92,7 +89,7 @@ function MyNavBar() {
             <Nav.Link as={Link} to="/Browse" className="pad2horiz">
               Explore
             </Nav.Link>
-            <NavDropdown
+            {/* <NavDropdown
               // show={showDropdown}
               // onMouseEnter={showDropdownFunc}
               // onMouseLeave={() => setShowDropdown(false)}
@@ -112,7 +109,7 @@ function MyNavBar() {
               <NavDropdown.Item href="#action/3.4">
                 Separated link
               </NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
             <Form className="d-flex pad2horiz" onSubmit={handleSearchSubmit}>
               <Form.Control
                 type="text"

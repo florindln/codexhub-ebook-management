@@ -7,6 +7,7 @@ import {
   DownloadBookById,
   GetBookById,
   GetRatingByBookId,
+  GetRatingByUserAndBookId,
   RateBook,
 } from "services/APIService";
 import { DiscussionEmbed } from "disqus-react";
@@ -34,6 +35,7 @@ function BookDetailsPage() {
     ratingsCount: 0,
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [personalRating, setPersonalRating] = useState(0.0);
 
   useEffect(() => {
     GetBookById(id).then((response) => {
@@ -45,6 +47,13 @@ function BookDetailsPage() {
         // console.log(ratingInfo);
         setRating(response.data.averageRating);
         setAverageRating(response.data.averageRating);
+
+        let userId = AuthService.getCurrentUser().id;
+        if (userId != "") {
+          GetRatingByUserAndBookId(id, userId).then((response) => {
+            setPersonalRating(response.data);
+          });
+        }
       });
     });
   }, []);
@@ -79,6 +88,11 @@ function BookDetailsPage() {
                 Average rating {averageRating.toString().substring(0, 3)} from{" "}
                 {ratingInfo.ratingsCount} people
               </div>
+              {personalRating != 0 && (
+                <div className="d-flex justify-content-center">
+                  My rating {personalRating.toString().substring(0, 3)}
+                </div>
+              )}
               <div className="d-flex justify-content-center">
                 <Rating
                   name="half-rating"

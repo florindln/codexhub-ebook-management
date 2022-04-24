@@ -40,6 +40,12 @@ export const GetRatingByBookId = (bookId) => {
   return axios.get(process.env.REACT_APP_GATEWAY + "/rating/" + bookId);
 };
 
+export const GetRatingByUserAndBookId = (bookId, userId) => {
+  return axios.get(
+    process.env.REACT_APP_GATEWAY + "/rating/" + bookId + "/user/" + userId
+  );
+};
+
 export const RateBook = (data) => {
   return axios.post(process.env.REACT_APP_GATEWAY + "/rating", data);
 };

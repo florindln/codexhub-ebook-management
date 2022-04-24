@@ -1,3 +1,4 @@
+using Amazon.S3;
 using BookService.AppServices;
 using BookService.Controllers;
 using BookService.Data;
@@ -49,6 +50,13 @@ namespace BookService
 
             services.AddScoped<BookApp>();
             services.AddScoped<IBookRepository, BookRepository>();
+            //services.AddAWSService<IAmazonS3>();
+
+            //var options = Configuration.GetAWSOptions();
+            //IAmazonS3 client = options.CreateServiceClient<IAmazonS3>();
+
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonS3>();
 
             services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<BooksController>>());
             services.AddControllers().AddNewtonsoftJson();

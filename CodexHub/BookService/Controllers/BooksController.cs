@@ -14,6 +14,9 @@ using BookService.Conversions;
 using BookService.Data;
 using BookService.AppServices;
 using Microsoft.Extensions.Logging;
+using Amazon.S3;
+using Amazon.S3.Model;
+using System.IO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,14 +30,55 @@ namespace BookService.Controllers
         private readonly IPublishEndpoint publishEndpoint;
         private readonly BookApp bookApp;
         private readonly ILogger logger;
+        private readonly IAmazonS3 amazons3;
 
         private const string BOOK_PROVIDER_BASE_URL = "https://www.googleapis.com/books/v1";
 
-        public BooksController(IPublishEndpoint publishEndpoint, BookApp bookApp, ILogger logger)
+        public BooksController(IPublishEndpoint publishEndpoint, BookApp bookApp, ILogger logger, IAmazonS3 amazons3)
         {
             this.publishEndpoint = publishEndpoint;
             this.bookApp = bookApp;
             this.logger = logger;
+            this.amazons3 = amazons3;
+        }
+
+        [HttpGet("Download/{id}")]
+        public async Task<IActionResult> DownloadBook(Guid id)
+        {
+            var book = await bookApp.GetBook(id);
+            if (book == null)
+                return NotFound();
+
+
+            //using (AmazonEC2Client ec2Client = new AmazonEC2Client(RegionEndpoint.USWest2))
+
+
+            var request = new GetObjectRequest
+            {
+                BucketName = "codexhub",
+                Key = book.Title.Replace(":", "") + ".pdf"
+            };
+
+            try
+            {
+                using GetObjectResponse response = await amazons3.GetObjectAsync(request);
+
+                using Stream responseStream = response.ResponseStream;
+                var stream = new MemoryStream();
+                await responseStream.CopyToAsync(stream);
+                stream.Position = 0;
+
+                return new FileStreamResult(stream, response.Headers["Content-Type"])
+                {
+                    FileDownloadName = book.Title + ".pdf"
+
+                };
+            }
+            catch (AmazonS3Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+
         }
 
         // GET: api/<BookController>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import FileSaver from "file-saver";
 import Cookies from "js-cookie";
 
 const headers = {
@@ -27,6 +28,12 @@ export const FilterBooks = (params) => {
 
 export const GetBookById = (id) => {
   return axios.get(process.env.REACT_APP_GATEWAY + "/books/" + id);
+};
+
+export const DownloadBookById = async (id) => {
+  return axios.get(process.env.REACT_APP_GATEWAY + "/books/download/" + id, {
+    responseType: "blob",
+  });
 };
 
 export const GetRatingByBookId = (bookId) => {

@@ -3,9 +3,15 @@ import Comments from "components/Comments/Comments";
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { GetBookById, GetRatingByBookId, RateBook } from "services/APIService";
+import {
+  DownloadBookById,
+  GetBookById,
+  GetRatingByBookId,
+  RateBook,
+} from "services/APIService";
 import { DiscussionEmbed } from "disqus-react";
 import AuthService from "services/AuthService";
+import FileSaver from "file-saver";
 
 function BookDetailsPage() {
   const { id } = useParams();
@@ -42,6 +48,13 @@ function BookDetailsPage() {
       });
     });
   }, []);
+
+  const handleDownloadBook = async () => {
+    await DownloadBookById(book.id).then((response) => {
+      FileSaver.saveAs(response.data, book.title);
+    });
+  };
+
   return (
     <div>
       <Container fluid>
@@ -58,7 +71,7 @@ function BookDetailsPage() {
                 />
               </div>
               <div className="d-flex justify-content-center">
-                <Button className="w-75 my-3">
+                <Button className="w-75 my-3" onClick={handleDownloadBook}>
                   Buy for {book.initialPrice} EUR
                 </Button>
               </div>{" "}
@@ -72,7 +85,7 @@ function BookDetailsPage() {
                   value={rating}
                   onChange={(event, newValue) => {
                     setRating(newValue);
-                    if (AuthService.getUserRole() != "") {
+                    if (AuthService.getUserRole() !== "") {
                       RateBook({
                         BookId: book.id,
                         UserId: AuthService.getCurrentUser().id,

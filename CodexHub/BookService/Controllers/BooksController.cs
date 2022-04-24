@@ -141,7 +141,7 @@ namespace BookService.Controllers
 
             foreach (var book in books)
             {
-                await publishEndpoint.Publish(new CatalogBookCreated(book.Id, book.Title, book.Description, book.InitialPrice, book.Category));
+                await publishEndpoint.Publish(new CatalogBookCreated(book.Id, book.Title, book.Description, book.InitialPrice, book.Category, book.ThumbnailURL));
             }
         }
 
@@ -154,7 +154,7 @@ namespace BookService.Controllers
 
             //try
             //{
-            await publishEndpoint.Publish(new CatalogBookCreated(bookEntity.Id, bookEntity.Title, bookEntity.Description, bookEntity.InitialPrice, bookEntity.Category));
+            await publishEndpoint.Publish(new CatalogBookCreated(bookEntity.Id, bookEntity.Title, bookEntity.Description, bookEntity.InitialPrice, bookEntity.Category, bookEntity.ThumbnailURL));
             //}
             //catch (Exception e)
             //{

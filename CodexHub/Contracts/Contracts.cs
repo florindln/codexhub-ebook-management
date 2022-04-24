@@ -5,7 +5,7 @@ namespace Contracts
 {
     public class Contracts
     {
-        public record CatalogBookCreated(Guid Id, string Title, string Description, double InitialPrice, string Category);
+        public record CatalogBookCreated(Guid Id, string Title, string Description, double InitialPrice, string Category, string ThumbnailURL);
         public record CatalogBookUpdated(Guid Id, string Description, double Price);
         public record CatalogBookDeleted(Guid Id);
 

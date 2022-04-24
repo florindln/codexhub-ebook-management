@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ebooks from "../../images/ebooks.jpg";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, CardGroup, Col, Container, Row } from "react-bootstrap";
+import {
+  GetRecommendationsByUserId,
+  GetRandomRecommendations,
+} from "services/APIService";
+import AuthService from "services/AuthService";
+import SmallBookCard from "./SmallBookCard";
 
 function Homepage() {
   const styles = {
@@ -21,6 +27,46 @@ function Homepage() {
       height: "100%",
     },
   };
+
+  const defaultSimplifiedBooks = [
+    {
+      id: "76a7916b-4fb8-45d6-b7fb-4728237b3cbd",
+      title: "Longarm Quilting Workbook",
+      description: "Learn to Longarm ",
+      initialPrice: 44.0,
+      category: "Crafts & Hobbies",
+      thumbnailURL:
+        "http://books.google.com/books/content?id=xt_-qyFy2PIC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    },
+    {
+      id: "76a7916b-4fb8-45d6-b7fb-4728237b3cbd",
+      title: "Longarm Quilting Workbook",
+      description: "Learn to Longarm ",
+      initialPrice: 44.0,
+      category: "Crafts & Hobbies",
+      thumbnailURL:
+        "http://books.google.com/books/content?id=xt_-qyFy2PIC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    },
+  ];
+
+  const [simplifiedBooks, setSimplifiedBooks] = useState(
+    defaultSimplifiedBooks
+  );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    let userId = AuthService.getCurrentUser().id;
+    if (userId != "") {
+      setIsLoggedIn(true);
+      GetRecommendationsByUserId(userId, 4).then((recommendations) => {
+        setSimplifiedBooks(recommendations.data);
+      });
+    } else {
+      GetRandomRecommendations(4).then((recommendations) => {
+        setSimplifiedBooks(recommendations.data);
+      });
+    }
+  }, []);
 
   return (
     <div>
@@ -67,6 +113,22 @@ function Homepage() {
             <h6 className="text-center">
               Try exploring books liked by others and more
             </h6>
+          </Col>
+        </Row>
+        <Row className="my-3">
+          <Col>
+            <div className="ms-5 ps-5">
+              {isLoggedIn ? (
+                <h4>Some personal recommendations based on your interests</h4>
+              ) : (
+                <h4>Random books you might like</h4>
+              )}
+            </div>
+            <CardGroup className="py-2 justify-content-center">
+              {simplifiedBooks.map((book, index) => (
+                <SmallBookCard key={index} simplifiedBook={book} />
+              ))}
+            </CardGroup>
           </Col>
         </Row>
       </Container>

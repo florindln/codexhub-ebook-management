@@ -30,7 +30,8 @@ namespace InventoryService.Consumers
                 InitialPrice = message.InitialPrice,
                 Title = message.Title,
                 Description = message.Description,
-                Category = message.Category
+                Category = message.Category,
+                ThumbnailURL = message.ThumbnailURL,
             };
 
             await repository.CreateAsync(book);

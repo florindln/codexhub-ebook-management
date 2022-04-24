@@ -13,5 +13,6 @@ namespace InventoryService.Entities
         public string Description { get; set; }
         public double InitialPrice { get; set; }
         public string Category { get; set; }
+        public string ThumbnailURL { get; set; }
     }
 }

@@ -62,6 +62,22 @@ export const CreateBook = (data) => {
   return axios.post(process.env.REACT_APP_GATEWAY + "/books", data);
 };
 
+export const GetRecommendationsByUserId = (userId, amount) => {
+  return axios.get(
+    process.env.REACT_APP_GATEWAY +
+      "/recommendations/" +
+      userId +
+      "?amount=" +
+      amount
+  );
+};
+
+export const GetRandomRecommendations = (amount) => {
+  return axios.get(
+    process.env.REACT_APP_GATEWAY + "/recommendations?amount=" + amount
+  );
+};
+
 //Auth
 
 export const LoginRequest = (email, password) => {

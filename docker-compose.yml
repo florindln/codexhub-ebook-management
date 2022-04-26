@@ -1,15 +1,30 @@
 version: "3.8"
 services:
-  reactclient:
-    build:
-      context: ./Frontend
-      dockerfile: Dockerfile
-    tty: true
+  # reactclient:
+  #   build:
+  #     context: ./Frontend
+  #     dockerfile: Dockerfile
+  #   tty: true
+  #   ports:
+  #     - "3009:3009"
+  #   volumes:
+  #     - ./Frontend:/app
+  #     - /app/node_modules
+  #DataBase Service
+  mysqldb:
+    image: mysql:8.0.22
+    #Map port 3306 on the mysql container to port 3307 in the host
     ports:
-      - "3008:3008"
+      - "3307:3306"
     volumes:
-      - ./Frontend:/app
-      - /app/node_modules
+      - datafiles:/var/lib/mysql
+      - "~/sql-scripts/setup.sql:/docker-entrypoint-initdb.d/1.sql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ultraroot
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: bookservice
   mongodb:
     image: mongo
     container_name: mongo
@@ -30,3 +45,4 @@ services:
 volumes:
   mongodbdata:
   rabbitmqdata:
+  datafiles:

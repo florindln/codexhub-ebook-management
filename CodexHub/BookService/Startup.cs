@@ -66,7 +66,7 @@ namespace BookService
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, BookDbContext bookDbContext)
         {
             //if (env.IsDevelopment())
             //{
@@ -80,6 +80,8 @@ namespace BookService
             {
                 app.UseExceptionHandler("/error");
             }
+
+            bookDbContext.Database.Migrate();
 
             app.UseCors(
       options => options.WithOrigins("http://localhost:3009").AllowAnyMethod());

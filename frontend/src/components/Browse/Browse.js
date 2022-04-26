@@ -48,7 +48,7 @@ function Browse() {
       FilterBooks({ title: nameSearch }).then((response) => {
         setBooks(response.data);
       });
-      console.log(nameSearch);
+      // console.log(nameSearch);
     }
   }, [nameSearch]);
 

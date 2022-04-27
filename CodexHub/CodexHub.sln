@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Cont
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookService.Tests", "BookService.Tests\BookService.Tests.csproj", "{F36F2FB4-01F3-44F9-922D-A3429E9FBA8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotGateway", "OcelotGateway\OcelotGateway.csproj", "{9B11CC6C-7FA9-4166-9F4A-D1C8B56F7079}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotGateway", "OcelotGateway\OcelotGateway.csproj", "{9B11CC6C-7FA9-4166-9F4A-D1C8B56F7079}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{47939D15-8F2D-4680-8945-A1E38CD12B8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{9B11CC6C-7FA9-4166-9F4A-D1C8B56F7079}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B11CC6C-7FA9-4166-9F4A-D1C8B56F7079}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B11CC6C-7FA9-4166-9F4A-D1C8B56F7079}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47939D15-8F2D-4680-8945-A1E38CD12B8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47939D15-8F2D-4680-8945-A1E38CD12B8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47939D15-8F2D-4680-8945-A1E38CD12B8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47939D15-8F2D-4680-8945-A1E38CD12B8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

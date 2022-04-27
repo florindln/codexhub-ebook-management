@@ -6,6 +6,7 @@ using BookService.Entities;
 using CodexhubCommon;
 using CodexhubCommon.MassTransit;
 using CodexhubCommon.Settings;
+using GreenPipes;
 using MassTransit;
 using MassTransit.Definition;
 using Microsoft.AspNetCore.Builder;
@@ -20,6 +21,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace BookService
@@ -27,6 +29,8 @@ namespace BookService
     public class Startup
     {
         private ServiceSettings serviceSettings;
+        private bool InDocker { get { return Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true"; } }
+
 
         public Startup(IConfiguration configuration)
         {
@@ -40,7 +44,8 @@ namespace BookService
         {
             serviceSettings = Configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
 
-            services.AddMassTransitWithRabbitMq();
+            services.AddMassTransitWithRabbitMq(InDocker, "guest", "guest");
+
             services.AddDbContext<BookDbContext>(options =>
             {
                 var mysqlConnectionString = Configuration.GetConnectionString("MySql");
@@ -81,7 +86,7 @@ namespace BookService
                 app.UseExceptionHandler("/error");
             }
 
-            bookDbContext.Database.Migrate();
+            //bookDbContext.Database.Migrate();
 
             app.UseCors(
       options => options.WithOrigins("http://localhost:3009").AllowAnyMethod());

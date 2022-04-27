@@ -13,7 +13,7 @@ namespace CodexhubCommon.MassTransit
 {
     public static class Extensions
     {
-        public static IServiceCollection AddMassTransitWithRabbitMq(this IServiceCollection services)
+        public static IServiceCollection AddMassTransitWithRabbitMq(this IServiceCollection services, bool InDocker, string username, string password)
         {
             services.AddMassTransit(configure =>
             {
@@ -24,7 +24,11 @@ namespace CodexhubCommon.MassTransit
                     var configuration = context.GetService<IConfiguration>();
                     var serviceSettings = configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
                     var rabbitMQSettings = configuration.GetSection(nameof(RabbitMQSettings)).Get<RabbitMQSettings>();
-                    configurator.Host(rabbitMQSettings.Host);
+                    configurator.Host(InDocker ? rabbitMQSettings.Host : "localhost", "/", hostConfig =>
+                    {
+                        hostConfig.Username(username);
+                        hostConfig.Password(password);
+                    });
                     configurator.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter(serviceSettings.ServiceName, false));
                     configurator.UseMessageRetry(retryConfigurator =>
                     {

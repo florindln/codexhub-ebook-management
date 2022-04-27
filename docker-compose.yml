@@ -1,18 +1,18 @@
 version: "3.8"
 services:
-  # reactclient:
-  #   build:
-  #     context: ./Frontend
-  #     dockerfile: Dockerfile
-  #   tty: true
-  #   ports:
-  #     - "3009:3009"
-  #   volumes:
-  #     - ./Frontend:/app
-  #     - /app/node_modules
-  #DataBase Service
+  reactclient:
+    container_name: reactfrontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3009:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
   mysqldb:
     image: mysql:8.0.22
+    container_name: mysqldb
     #Map port 3306 on the mysql container to port 3307 in the host
     ports:
       - "3307:3306"
@@ -25,6 +25,7 @@ services:
       MYSQL_USER: dbuser
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: bookservice
+
   mongodb:
     image: mongo
     container_name: mongo
@@ -41,6 +42,50 @@ services:
     volumes:
       - rabbitmqdata:/var/lib/rabbitmq
     hostname: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+  bookservice:
+    container_name: bookservice
+    build:
+      context: ./CodexHub
+      dockerfile: BookService/Dockerfile
+    # image: bookservice:dev
+    ports:
+      - 5002:80
+    depends_on:
+      - mysqldb
+      - rabbitmq
+  userservice:
+    container_name: userservice
+    # image: userservice:dev
+    ports:
+      - 5001:80
+    build:
+      context: ./CodexHub
+      dockerfile: UserService/Dockerfile
+    depends_on:
+      - mongodb
+      - rabbitmq
+  inventoryservice:
+    container_name: inventoryservice
+    # image: inventoryservice:dev
+    build:
+      context: ./CodexHub
+      dockerfile: InventoryService/Dockerfile
+    ports:
+      - 5005:80
+    depends_on:
+      - mongodb
+      - rabbitmq
+  ocelotgateway:
+    container_name: ocelotgateway
+    # image: ocelotgateway:dev
+    build:
+      context: ./CodexHub
+      dockerfile: OcelotGateway/Dockerfile
+    ports:
+      - 5021:80
 
 volumes:
   mongodbdata:

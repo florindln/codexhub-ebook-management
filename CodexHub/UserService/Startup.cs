@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
 using UserService.Auth;
 using UserService.Entities;
@@ -17,7 +18,7 @@ namespace UserService
     public class Startup
     {
         private ServiceSettings serviceSettings;
-
+        private bool InDocker { get { return Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true"; } }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,7 +31,9 @@ namespace UserService
         {
             serviceSettings = Configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
 
+            //services.AddMassTransitWithRabbitMq(InDocker, "guest", "guest");
             services.AddMassTransitWithRabbitMq();
+
             services.AddMongo().AddMongoRepository<UserEntity>("users");
             services.AddSingleton<JwtAuthenticationManager>();
 

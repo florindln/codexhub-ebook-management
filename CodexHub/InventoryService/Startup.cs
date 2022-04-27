@@ -18,6 +18,8 @@ namespace InventoryService
     public class Startup
     {
         private const string AllowedOriginSetting = "AllowedOrigin";
+        private bool InDocker { get { return Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true"; } }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,8 +34,12 @@ namespace InventoryService
                 .AddMongoRepository<BookUserEntity>("bookuser")
                 .AddMongoRepository<CatalogBook>("catalogbooks")
                 .AddMongoRepository<CatalogUser>("catalogusers")
-                .AddMongoRepository<Rating>("ratings")
-                .AddMassTransitWithRabbitMq();
+                .AddMongoRepository<Rating>("ratings");
+
+
+            services.AddMassTransitWithRabbitMq();
+            //services.AddMassTransitWithRabbitMq(InDocker, "guest", "guest");
+
 
             //AddBookClient(services);
 

@@ -1,9 +1,8 @@
 # Pull latest official node image
-FROM node:latest-alpine
+FROM node:12-alpine
 
 # Expose ports
-EXPOSE 3008
-EXPOSE 35729
+EXPOSE 3000
 
 # Set working directory
 WORKDIR /app
@@ -12,13 +11,13 @@ WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 
 # Copy package files and install app dependencies
-COPY package.json /app/package.json
-COPY package-lock.json /app/package-lock.json
-RUN npm install
-RUN npm install react-scripts -g
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install --silent
+RUN npm install react-scripts@3.4.1 -g --silent
 
-# Add React app to working directory
-ADD . /app
+# add app
+COPY . ./
 
-# Start the React app
+# start app
 CMD ["npm", "start"]

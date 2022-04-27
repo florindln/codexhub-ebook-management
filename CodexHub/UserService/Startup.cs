@@ -31,8 +31,8 @@ namespace UserService
         {
             serviceSettings = Configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
 
-            //services.AddMassTransitWithRabbitMq(InDocker, "guest", "guest");
-            services.AddMassTransitWithRabbitMq();
+            services.AddMassTransitWithRabbitMq(InDocker, "guest", "guest");
+            //services.AddMassTransitWithRabbitMq();
 
             services.AddMongo().AddMongoRepository<UserEntity>("users");
             services.AddSingleton<JwtAuthenticationManager>();

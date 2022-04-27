@@ -29,6 +29,28 @@ function AdminBookTable() {
       initialPrice: 0.0,
     },
     {
+      id: "12345c98-9e37-4632-befb-f0598d9f4067",
+      title: "Begiaaflting",
+      authors: ["Elizar", "third"],
+      description: "somfhing",
+      pageCount: 111111111128,
+      publishedDate: "2013-06-07T00:00:00",
+      category: "rrrrrrrrrrrr",
+      thumbnailURL: "hAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+      initialPrice: 0.0,
+    },
+    {
+      id: "98765c98-9e37-4632-befb-f0598d9f4067",
+      title: "Begiaaflting",
+      authors: ["Elizar", "third"],
+      description: "somfhing",
+      pageCount: 111111111128,
+      publishedDate: "2013-06-07T00:00:00",
+      category: "rrrrrrrrrrrr",
+      thumbnailURL: "hAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+      initialPrice: 0.0,
+    },
+    {
       id: "59444c98-9e37-4632-befb-f0598d9f4067",
       title: "Longarm Quilting Workbook",
       authors: ["Teresa Silva"],
@@ -113,6 +135,30 @@ function AdminBookTable() {
         },
       },
     },
+    {
+      name: "Delete",
+      options: {
+        filter: true,
+        sort: false,
+        empty: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return (
+            <Button
+              onClick={() => {
+                const bookId = tableMeta.rowData[0];
+                const book = books.find((book) => book.id === bookId);
+
+                // console.log(book.id);
+                DeleteBook(book.id);
+                setBooks(books.filter((b) => b.id != book.id));
+              }}
+            >
+              Delete
+            </Button>
+          );
+        },
+      },
+    },
   ];
 
   const AddBookButton = () => (
@@ -126,11 +172,12 @@ function AdminBookTable() {
   const options = {
     filterType: "checkbox",
     selectableRows: "single",
-    onRowsDelete: (rowsDeleted, rowData) => {
-      const bookId = rowData[0][0];
-      //   console.log(bookId); //do axios call to delete book
-      DeleteBook(bookId);
-    },
+    // onRowsDelete: (rowsDeleted, rowData) => {
+    // const bookId = rowData[0][0]; this is wrong because when clicking delete instead of giving you the id of what you click it gives you all the other remaining elements
+    // console.log(rowData);
+    // console.log(bookId); //do axios call to delete book
+    // DeleteBook(bookId);
+    // },
     customToolbar: AddBookButton,
     // onColumnSortChange: (changedColumn, direction) =>
     //   console.log("changedColumn: ", changedColumn, "direction: ", direction),

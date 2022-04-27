@@ -37,8 +37,8 @@ namespace InventoryService
                 .AddMongoRepository<Rating>("ratings");
 
 
-            services.AddMassTransitWithRabbitMq();
-            //services.AddMassTransitWithRabbitMq(InDocker, "guest", "guest");
+            //services.AddMassTransitWithRabbitMq();
+            services.AddMassTransitWithRabbitMq(InDocker, "guest", "guest");
 
 
             //AddBookClient(services);

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using static Contracts.Contracts;
-using static Contracts.Secrets;
+//using static Contracts.Secrets;
 using BookService.Conversions;
 using BookService.Data;
 using BookService.AppServices;
@@ -132,7 +132,7 @@ namespace BookService.Controllers
         public async Task GetBooksFromAPI(string name)
         {
             var res = await httpClient.GetAsync(
-                BOOK_PROVIDER_BASE_URL + "/volumes?q=" + name + $"&key={GOOGLE_API_KEY}");
+                BOOK_PROVIDER_BASE_URL + "/volumes?q=" + name/* + $"&key={GOOGLE_API_KEY}"*/);
 
             var content = await res.Content.ReadAsStringAsync();
             var books = Conversion.GoogleAPIContentToBooks(content);

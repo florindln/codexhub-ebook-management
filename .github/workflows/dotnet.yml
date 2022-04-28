@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,7 +18,11 @@ jobs:
       - name: Restore dependencies
         working-directory: CodexHub
         run: dotnet restore ./CodexHub.sln
-      - name: Build
-        run: dotnet build --no-restore CodexHub.sln
-      - name: Test
-        run: dotnet test --no-build --verbosity normal CodexHub.sln
+      - name: Build books
+        working-directory: CodexHub
+        # working-directory: CodexHub/BookService
+        run: dotnet build --no-restore ./CodexHub.sln
+      - name: Test books
+        working-directory: CodexHub
+        # working-directory: CodexHub/BookService.Tests
+        run: dotnet test --no-build --verbosity normal ./CodexHub.sln

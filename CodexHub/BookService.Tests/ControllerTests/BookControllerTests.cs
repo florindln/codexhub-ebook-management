@@ -21,7 +21,7 @@ namespace BookService.Tests.ControllerTests
             var mockRepo = new Mock<IBookRepository>();
             mockRepo.Setup(repo => repo.GetAsync(It.IsAny<Guid>())).ReturnsAsync((BookEntity)null);
             var controller = new BooksController(null, new BookApp(mockRepo.Object),
-                null);
+                null, null);
 
             var bookRes = await controller.GetByIdAsync(Guid.Empty);
 
@@ -35,7 +35,7 @@ namespace BookService.Tests.ControllerTests
             var mockRepo = new Mock<IBookRepository>();
             mockRepo.Setup(repo => repo.GetAsync(Guid.Empty)).ReturnsAsync(book);
             var controller = new BooksController(null, new BookApp(mockRepo.Object),
-                null);
+                null, null);
 
             var bookRes = await controller.GetByIdAsync(Guid.Empty);
 

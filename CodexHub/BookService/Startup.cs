@@ -18,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,9 @@ namespace BookService
                 var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
                 options.UseMySql(mysqlConnectionString, serverVersion);
             });
+
+            var redis = ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis"));
+            services.AddScoped<IDatabase>(s => redis.GetDatabase());
 
             services.AddScoped<BookApp>();
             services.AddScoped<IBookRepository, BookRepository>();

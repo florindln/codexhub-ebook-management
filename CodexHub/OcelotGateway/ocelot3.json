@@ -5,8 +5,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "userservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/auth/login",
@@ -17,8 +17,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "userservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/auth/register",
@@ -29,8 +29,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "userservice",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {
@@ -52,8 +52,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "userservice",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {
@@ -68,8 +68,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "bookservice",
+          "Port": 80
         }
       ],
       //"AuthenticationOptions": {
@@ -84,8 +84,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "bookservice",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {
@@ -100,8 +100,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "bookservice",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {
@@ -116,8 +116,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "bookservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/books/filter?{everything}",
@@ -128,8 +128,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "bookservice",
+          "Port": 80
         }
       ],
       //"AuthenticationOptions": {
@@ -145,8 +145,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5005
+          "Host": "inventoryservice",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {
@@ -161,8 +161,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5005
+          "Host": "inventoryservice",
+          "Port": 80
         }
       ],
       "AuthenticationOptions": {
@@ -177,8 +177,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5005
+          "Host": "inventoryservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/rating/{bookId}",
@@ -189,8 +189,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5005
+          "Host": "inventoryservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/recommendations/{userId}",
@@ -201,15 +201,13 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5005
+          "Host": "inventoryservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/recommendations",
       "UpstreamHttpMethod": [ "Get" ]
     }
   ],
-  "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5021"
-  }
+  "GlobalConfiguration": {}
 }

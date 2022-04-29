@@ -3,6 +3,8 @@ using BookService.Data;
 using BookService.Dtos;
 using BookService.Entities;
 using CodexhubCommon;
+using Newtonsoft.Json;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +16,12 @@ namespace BookService.AppServices
     public class BookApp
     {
         private readonly IBookRepository repository;
+        private readonly IDatabase redisdatabase;
 
-        public BookApp(IBookRepository repository)
+        public BookApp(IBookRepository repository, IDatabase redisdatabase)
         {
             this.repository = repository;
+            this.redisdatabase = redisdatabase;
         }
 
         public async Task<IEnumerable<BookDto>> GetAllBooks()
@@ -34,8 +38,17 @@ namespace BookService.AppServices
 
         public async Task<BookEntity> GetBook(Guid id)
         {
-            var book = await repository.GetAsync(id);
-            return book;
+            var cachedBook = await redisdatabase.StringGetAsync(id.ToString());
+
+            if (cachedBook.IsNullOrEmpty)
+            {
+                var book = await repository.GetAsync(id);
+
+                await redisdatabase.StringSetAsync(book.Id.ToString(), JsonConvert.SerializeObject(book));
+                return book;
+            }
+
+            return JsonConvert.DeserializeObject<BookEntity>(cachedBook.ToString());
         }
 
         public async Task CreateBooks(List<BookEntity> books)
@@ -74,12 +87,14 @@ namespace BookService.AppServices
             updatedBook.InitialPrice = updateBookDto.InitialPrice;
 
             await repository.UpdateAsync(updatedBook);
+            await redisdatabase.StringSetAsync(updatedBook.Id.ToString(), JsonConvert.SerializeObject(updatedBook));
 
             return updatedBook;
         }
 
         public async Task DeleteBook(Guid id)
         {
+            await redisdatabase.StringGetDeleteAsync(id.ToString());
             await repository.DeleteAsync(id);
         }
     }

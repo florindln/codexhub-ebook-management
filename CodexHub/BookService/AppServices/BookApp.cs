@@ -44,6 +44,9 @@ namespace BookService.AppServices
             {
                 var book = await repository.GetAsync(id);
 
+                if (book == null)
+                    return null;
+
                 await redisdatabase.StringSetAsync(book.Id.ToString(), JsonConvert.SerializeObject(book));
                 return book;
             }

@@ -53,7 +53,7 @@ namespace InventoryService
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
 
                 app.UseCors(builder =>
                 {
@@ -61,6 +61,14 @@ namespace InventoryService
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                 });
+            }
+            if (env.IsDevelopment())
+            {
+                app.UseExceptionHandler("/error-development");
+            }
+            else
+            {
+                app.UseExceptionHandler("/error");
             }
 
             app.UseRouting();

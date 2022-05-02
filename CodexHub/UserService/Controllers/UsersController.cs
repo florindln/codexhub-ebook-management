@@ -66,7 +66,7 @@ namespace UserService.Controllers
 
             userDto.Id = Guid.NewGuid();
 
-            var user = userDto.AsModel();
+            var user = userDto.AsModel(userDto.Role);
 
             await userRepository.CreateAsync(user.AsData());
 

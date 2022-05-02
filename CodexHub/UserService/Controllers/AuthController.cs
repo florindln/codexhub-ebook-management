@@ -47,7 +47,7 @@ namespace UserService.Controllers
             userDto.Id = Guid.NewGuid();
             userDto.Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
 
-            var user = userDto.AsModel();
+            var user = userDto.AsModel("User");
 
             await userRepository.CreateAsync(user.AsData());
 

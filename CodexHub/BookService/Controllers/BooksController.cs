@@ -147,7 +147,7 @@ namespace BookService.Controllers
 
         // POST api/<BookController>
         [HttpPost]
-        public async Task<IActionResult> Post(CreateBookDto bookDto)
+        public async Task<ActionResult<BookDto>> PostAsync(CreateBookDto bookDto)
         {
             var bookEntity = bookDto.AsEntity();
             await bookApp.CreateBook(bookEntity);
@@ -161,12 +161,12 @@ namespace BookService.Controllers
             //    logger.LogError(e.Message);
             //}
 
-            return Created(nameof(GetByIdAsync), bookEntity);
+            return bookEntity.AsDto();
         }
 
         // PUT api/<BookController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, UpdateBookDto updateBookDto)
+        public async Task<IActionResult> PutAsync(Guid id, UpdateBookDto updateBookDto)
         {
             var updatedBook = await bookApp.UpdateBook(id, updateBookDto);
 
@@ -187,7 +187,7 @@ namespace BookService.Controllers
 
         // DELETE api/<BookController>/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteAsync(Guid id)
         {
             await bookApp.DeleteBook(id);
 

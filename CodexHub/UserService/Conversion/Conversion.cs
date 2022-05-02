@@ -11,8 +11,8 @@ namespace UserService.Conversion
 {
     public static class Conversion
     {
-        public static User AsModel(this UserDto userDto) =>
-            new User(userDto.Id, userDto.FirstName, userDto.LastName, userDto.Email, userDto.Password, userDto.Interests.ToMaybe(), "User");
+        public static User AsModel(this UserDto userDto, string role) =>
+            new User(userDto.Id, userDto.FirstName, userDto.LastName, userDto.Email, userDto.Password, userDto.Interests.ToMaybe(), role);
         public static User AsModel(this UserEntity userEntity) =>
             new User(userEntity.Id, userEntity.FirstName, userEntity.LastName, userEntity.Email, userEntity.Password, userEntity.Interests.ToMaybe(), userEntity.Role);
 

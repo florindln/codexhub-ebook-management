@@ -18,7 +18,7 @@ namespace UserService.Models
             Password = password ?? throw new ArgumentNullException(nameof(email));
             Interests = interests;
             CreatedAt = DateTime.Now;
-            Role = role;
+            Role = role ?? throw new ArgumentNullException(nameof(role));
         }
         public Guid Id { get; set; }
 

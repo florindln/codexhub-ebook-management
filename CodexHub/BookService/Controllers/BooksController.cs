@@ -147,19 +147,20 @@ namespace BookService.Controllers
 
         // POST api/<BookController>
         [HttpPost]
-        public async Task<ActionResult<BookDto>> PostAsync(CreateBookDto bookDto)
+        public async Task<ActionResult<BookDto>> PostAsync(CreateBookDto bookDto, bool incompleteBook = false)
         {
-            var bookEntity = bookDto.AsEntity();
+            IBookEntityFactory factory = incompleteBook ? new IncompleteBookEntityFactory() : new NormalBookEntityFactory(bookDto);
+
+            var bookEntity = factory.Create();
+
+            if (incompleteBook)
+            {
+                return bookEntity.AsDto();
+            }
+
             await bookApp.CreateBook(bookEntity);
 
-            //try
-            //{
             await publishEndpoint.Publish(new CatalogBookCreated(bookEntity.Id, bookEntity.Title, bookEntity.Description, bookEntity.InitialPrice, bookEntity.Category, bookEntity.ThumbnailURL));
-            //}
-            //catch (Exception e)
-            //{
-            //    logger.LogError(e.Message);
-            //}
 
             return bookEntity.AsDto();
         }

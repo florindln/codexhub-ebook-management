@@ -18,24 +18,6 @@ namespace BookService.Conversions
             return new BookDto(bookEntity.Id, bookEntity.Title, bookEntity.Authors.Select(author => author.Name).ToList(), bookEntity.Description, bookEntity.PageCount, bookEntity.PublishedDate, bookEntity.Category, bookEntity.ThumbnailURL, bookEntity.InitialPrice);
         }
 
-        public static BookEntity AsEntity(this CreateBookDto bookDto)
-        {
-            if (bookDto is null)
-                return null;
-
-            return new BookEntity
-            {
-                Id = Guid.NewGuid(),
-                Authors = bookDto.Authors.Select(author => new Author { Name = author }).ToList(),
-                Category = bookDto.Category,
-                Description = bookDto.Description,
-                InitialPrice = bookDto.InitialPrice,
-                PageCount = bookDto.PageCount,
-                PublishedDate = bookDto.PublishedDate,
-                ThumbnailURL = bookDto.ThumbnailURL,
-                Title = bookDto.Title,
-            };
-        }
         public static List<BookEntity> GoogleAPIContentToBooks(string content)
         {
             JObject obj = JObject.Parse(content);
@@ -45,31 +27,35 @@ namespace BookService.Conversions
 
             foreach (var item in items)
             {
-                var info = item["volumeInfo"];
-                string title = info["title"].ToString();
-                var authors = info["authors"].ToObject<List<string>>();
-                var random = new Random();
-
-                string publisher = info["publisher"].ToString();
-                string publishDate = info["publishedDate"].ToString();
-                string description = info["description"].ToString();
-                int pageCount = Int32.Parse(info["pageCount"].ToString());
-                string category = info["categories"][0].ToString();
-                var imageUrls = info["imageLinks"];
-                string thumbnailUrl = imageUrls["thumbnail"].ToString();
-                DateTime dateValue;
-                books.Add(new BookEntity
+                try //ignore parsing errors
                 {
-                    Authors = authors.Select(name => new Author { Name = name, }).ToList(),
-                    Category = category,
-                    Description = description,
-                    InitialPrice = random.Next(1, 50),
-                    PageCount = pageCount,
-                    PublishedDate = DateTime.TryParse(publishDate, out dateValue) ? dateValue : dateValue,
-                    ThumbnailURL = thumbnailUrl,
-                    Title = title,
-                    Id = Guid.NewGuid(),
-                });
+                    var info = item["volumeInfo"];
+                    string title = info["title"].ToString();
+                    var authors = info["authors"].ToObject<List<string>>();
+                    var random = new Random();
+
+                    string publisher = info["publisher"].ToString();
+                    string publishDate = info["publishedDate"].ToString();
+                    string description = info["description"].ToString();
+                    int pageCount = Int32.Parse(info["pageCount"].ToString());
+                    string category = info["categories"][0].ToString();
+                    var imageUrls = info["imageLinks"];
+                    string thumbnailUrl = imageUrls["thumbnail"].ToString();
+                    DateTime dateValue;
+                    books.Add(new BookEntity
+                    {
+                        Authors = authors.Select(name => new Author { Name = name, }).ToList(),
+                        Category = category,
+                        Description = description,
+                        InitialPrice = random.Next(1, 50),
+                        PageCount = pageCount,
+                        PublishedDate = DateTime.TryParse(publishDate, out dateValue) ? dateValue : dateValue,
+                        ThumbnailURL = thumbnailUrl,
+                        Title = title,
+                        Id = Guid.NewGuid(),
+                    });
+                }
+                catch { }
             }
 
             return books;

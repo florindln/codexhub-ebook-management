@@ -37,6 +37,9 @@
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
       },
+      "RouteClaimsRequirement": {
+        "permissionRole": "Admin"
+      },
       "UpstreamPathTemplate": "/users",
       "UpstreamHttpMethod": [ "Get", "Post" ],
       "RateLimitOptions": {
@@ -61,7 +64,7 @@
         "AllowedScopes": []
       },
       "UpstreamPathTemplate": "/users/{id}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+      "UpstreamHttpMethod": [ "Get", "Delete", "Put" ]
     },
     {
       "DownstreamPathTemplate": "/v1/books",
@@ -72,10 +75,6 @@
           "Port": 5002
         }
       ],
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "Bearer",
-      //  "AllowedScopes": []
-      //},
       "UpstreamPathTemplate": "/books",
       "UpstreamHttpMethod": [ "Get" ]
     },
@@ -91,6 +90,9 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
         "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "permissionRole": "Admin"
       },
       "UpstreamPathTemplate": "/books",
       "UpstreamHttpMethod": [ "Post" ]
@@ -132,14 +134,28 @@
           "Port": 5002
         }
       ],
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "Bearer",
-      //  "AllowedScopes": []
-      //},
       "UpstreamPathTemplate": "/books/{id}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+      "UpstreamHttpMethod": [ "Get" ]
     },
-
+    {
+      "DownstreamPathTemplate": "/v1/books/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "permissionRole": "Admin"
+      },
+      "UpstreamPathTemplate": "/books/{id}",
+      "UpstreamHttpMethod": [ "Put", "Delete" ]
+    },
     {
       "DownstreamPathTemplate": "/v1/Rating",
       "DownstreamScheme": "http",
@@ -193,6 +209,10 @@
           "Port": 5005
         }
       ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "UpstreamPathTemplate": "/recommendations/{userId}",
       "UpstreamHttpMethod": [ "Get" ]
     },

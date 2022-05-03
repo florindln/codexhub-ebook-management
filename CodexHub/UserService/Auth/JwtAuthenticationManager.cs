@@ -28,8 +28,8 @@ namespace UserService.Auth
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim("id",userEntity.Id.ToString()),
-                    new Claim(ClaimTypes.Email, userEntity.Email),
-                    new Claim(ClaimTypes.Role, userEntity.Role),
+                    new Claim("userEmail", userEntity.Email),
+                    new Claim("permissionRole", userEntity.Role),
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)

@@ -94,7 +94,11 @@ function BookManagePage(props) {
         <Row>
           <Col md={2}></Col>
           <Col md={8}>
-            {props.type === "edit" ? <h3>Edit book </h3> : <h3>Create book</h3>}
+            {props.type === "edit" ? (
+              <h3>Edit book (description and price)</h3>
+            ) : (
+              <h3>Create book</h3>
+            )}
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
                 <Form.Label>Title</Form.Label>

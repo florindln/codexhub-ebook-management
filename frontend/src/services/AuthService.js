@@ -27,7 +27,7 @@ class AuthService {
         this.logout();
         return { id: "", token: "", role: "" };
       }
-      return { id: decoded.id, token: token, role: decoded.role };
+      return { id: decoded.id, token: token, role: decoded.permissionRole };
     } else {
       return { id: "", token: "", role: "" };
     }

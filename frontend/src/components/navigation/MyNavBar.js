@@ -76,7 +76,7 @@ function MyNavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            {permissionRole === "User" && (
+            {permissionRole === "Admin" && (
               <NavDropdown title="Admin" id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to="/AdminTable">
                   Books

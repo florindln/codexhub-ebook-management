@@ -84,14 +84,16 @@ function Homepage() {
                 <Row>
                   <h2 className="text-center">Look for ebooks now!</h2>
                 </Row>
-                <Row>
-                  <Col className="d-flex justify-content-end">
-                    <Button variant="primary">Join</Button>
-                  </Col>
-                  <Col className="d-flex justify-content-start">
-                    <Button variant="primary">Login</Button>
-                  </Col>
-                </Row>
+                {!isLoggedIn && (
+                  <Row>
+                    <Col className="d-flex justify-content-end">
+                      <Button variant="primary">Join</Button>
+                    </Col>
+                    <Col className="d-flex justify-content-start">
+                      <Button variant="primary">Login</Button>
+                    </Col>
+                  </Row>
+                )}
               </Container>
             </div>
           </Col>

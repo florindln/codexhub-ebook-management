@@ -163,6 +163,7 @@ function ProfilePage() {
                       placeholder="Password"
                       name="password"
                       onChange={handleChange}
+                      readOnly
                     />
                   )}
                 </Col>

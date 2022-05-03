@@ -6,6 +6,7 @@ import BookFilterForm from "./BookFilterForm";
 import SvgArrow from "./SvgArrow";
 import "./Browse.css";
 import { useSearchParams } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 function Browse() {
   const defaultBooks = [
@@ -32,6 +33,7 @@ function Browse() {
 
   const [dropdownToggled, setDropdownToggled] = useState(false);
   const [books, setBooks] = useState(defaultBooks);
+  const [viewableBooks, setViewableBooks] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const nameSearch = searchParams.get("name");
 
@@ -43,10 +45,12 @@ function Browse() {
     if (nameSearch === null) {
       GetAllBooks().then((response) => {
         setBooks(response.data);
+        setViewableBooks(response.data.slice(0, 5));
       });
     } else {
       FilterBooks({ title: nameSearch }).then((response) => {
         setBooks(response.data);
+        setViewableBooks(response.data.slice(0, 5));
       });
       // console.log(nameSearch);
     }
@@ -65,6 +69,13 @@ function Browse() {
     });
 
     return genreList;
+  };
+
+  const fetchMoreData = () => {
+    let length = viewableBooks.length;
+    let newBooks = books.slice(length, length + 5);
+    let newViewable = [...viewableBooks, ...newBooks];
+    setViewableBooks(newViewable);
   };
 
   return (
@@ -98,10 +109,19 @@ function Browse() {
                 )}
               </Row>
               <Row>
-                {books.map((book, index) => (
-                  <BookCard key={index} book={book} />
-                ))}
-                {/* <BookCard />; */}
+                <InfiniteScroll
+                  dataLength={viewableBooks.length}
+                  next={fetchMoreData}
+                  hasMore={true}
+                  loader={<></>}
+                >
+                  {viewableBooks.map((book, index) => (
+                    <BookCard key={index} book={book} />
+                  ))}
+                  {/* {books.map((book, index) => (
+                    <BookCard key={index} book={book} />
+                  ))} */}
+                </InfiniteScroll>
               </Row>
             </Container>
           </Col>

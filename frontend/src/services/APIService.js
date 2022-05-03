@@ -101,6 +101,10 @@ export const EditUser = (id, data) => {
   return axios.put(process.env.REACT_APP_GATEWAY + "/users/" + id, data);
 };
 
+export const DeleteUser = (id) => {
+  return axios.delete(process.env.REACT_APP_GATEWAY + "/users/" + id);
+};
+
 //Comments
 export const getComments = async () => {
   return [

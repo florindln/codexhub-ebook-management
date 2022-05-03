@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { EditUser, GetUserById } from "services/APIService";
+import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { DeleteUser, EditUser, GetUserById } from "services/APIService";
 import AuthService from "services/AuthService";
 
 function ProfilePage() {
@@ -15,6 +16,19 @@ function ProfilePage() {
     role: "User",
   });
   const [readOnlySetting, setReadOnlySetting] = useState(true);
+  const [modalShow, setModalShow] = useState(false);
+  const navigate = useNavigate();
+
+  const handleModalClose = () => setModalShow(false);
+  const handleModalShow = () => setModalShow(true);
+
+  const deleteProfile = () => {
+    DeleteUser(user.id).then((response) => {
+      AuthService.logout();
+      navigate("/");
+      document.location.reload();
+    });
+  };
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -195,7 +209,8 @@ function ProfilePage() {
               </Form.Group>
 
               <Form.Group as={Row} className="mb-3">
-                <Col sm={{ span: 10, offset: 2 }}>
+                <Col sm={3}></Col>
+                <Col>
                   {readOnlySetting ? (
                     <Button
                       onClick={(e) => {
@@ -208,6 +223,30 @@ function ProfilePage() {
                   ) : (
                     <Button type="submit">Save</Button>
                   )}
+                </Col>
+                <Col>
+                  {!readOnlySetting && (
+                    <Button variant="danger" onClick={handleModalShow}>
+                      Delete profile
+                    </Button>
+                  )}
+
+                  <Modal show={modalShow} onHide={handleModalClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Delete profile?</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      Are you sure you want to permanently delete your profile?
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleModalClose}>
+                        Close
+                      </Button>
+                      <Button variant="primary" onClick={deleteProfile}>
+                        Delete
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
                 </Col>
               </Form.Group>
             </Form>

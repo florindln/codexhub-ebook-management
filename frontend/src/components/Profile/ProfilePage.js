@@ -213,6 +213,8 @@ function ProfilePage() {
                 <Col>
                   {readOnlySetting ? (
                     <Button
+                      variant="warning"
+                      style={{ backgroundColor: "#b14512", color: "white" }}
                       onClick={(e) => {
                         setReadOnlySetting(false);
                         e.preventDefault();
@@ -221,7 +223,13 @@ function ProfilePage() {
                       Edit Profile
                     </Button>
                   ) : (
-                    <Button type="submit">Save</Button>
+                    <Button
+                      variant="warning"
+                      style={{ backgroundColor: "#b14512", color: "white" }}
+                      type="submit"
+                    >
+                      Save
+                    </Button>
                   )}
                 </Col>
                 <Col>
@@ -242,7 +250,7 @@ function ProfilePage() {
                       <Button variant="secondary" onClick={handleModalClose}>
                         Close
                       </Button>
-                      <Button variant="primary" onClick={deleteProfile}>
+                      <Button variant="danger" onClick={deleteProfile}>
                         Delete
                       </Button>
                     </Modal.Footer>

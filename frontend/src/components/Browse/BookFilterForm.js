@@ -156,7 +156,11 @@ function BookFilterForm(props) {
           <Form.Check type="checkbox" label="Check me out" />
         </Form.Group> */}
         <div className="d-flex justify-content-end mt-3">
-          <Button variant="primary" type="submit">
+          <Button
+            variant="warning"
+            style={{ backgroundColor: "#b14512", color: "white" }}
+            type="submit"
+          >
             Submit
           </Button>
         </div>

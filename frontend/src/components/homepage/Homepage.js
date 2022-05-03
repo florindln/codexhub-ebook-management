@@ -7,6 +7,7 @@ import {
 } from "services/APIService";
 import AuthService from "services/AuthService";
 import SmallBookCard from "./SmallBookCard";
+import { useNavigate } from "react-router-dom";
 
 function Homepage() {
   const styles = {
@@ -53,6 +54,7 @@ function Homepage() {
     defaultSimplifiedBooks
   );
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let userId = AuthService.getCurrentUser().id;
@@ -87,10 +89,22 @@ function Homepage() {
                 {!isLoggedIn && (
                   <Row>
                     <Col className="d-flex justify-content-end">
-                      <Button variant="primary">Join</Button>
+                      <Button
+                        variant="warning"
+                        style={{ backgroundColor: "#f1e0d2" }}
+                        onClick={() => navigate("/SignUp")}
+                      >
+                        Join
+                      </Button>
                     </Col>
                     <Col className="d-flex justify-content-start">
-                      <Button variant="primary">Login</Button>
+                      <Button
+                        variant="warning"
+                        style={{ backgroundColor: "#f1e0d2" }}
+                        onClick={() => navigate("/SignIn")}
+                      >
+                        Login
+                      </Button>
                     </Col>
                   </Row>
                 )}

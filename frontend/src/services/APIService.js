@@ -14,6 +14,34 @@ axios.interceptors.request.use(function (config) {
   return config;
 });
 
+axios.interceptors.response.use(
+  function (response) {
+    // Do something with response data
+    return response;
+  },
+  function (error) {
+    if (error.response && error.response.data.message) {
+      alert(error + "\n" + error.response.data.message);
+    } else {
+      alert(error);
+    }
+    // Do something with response error
+    return Promise.reject(error);
+  }
+);
+
+axios.interceptors.request.use(
+  function (config) {
+    // Do something before request is sent
+    return config;
+  },
+  function (error) {
+    alert(error);
+    // Do something with request error
+    return Promise.reject(error);
+  }
+);
+
 //Books API
 
 export const GetAllBooks = () => {

@@ -4,14 +4,15 @@ import { FilterBooks } from "services/APIService";
 import Multiselecter from "./Multiselecter";
 
 function BookFilterForm(props) {
-  const [filterOptions, setFilterOptions] = useState({
+  const defaultFilterOptions = {
     title: "",
     pageCountMin: null,
     pageCountMax: null,
     publishedYearMin: null,
     publishedYearMax: null,
     genres: [],
-  });
+  };
+  const [filterOptions, setFilterOptions] = useState(defaultFilterOptions);
 
   const radioChanged = (event) => {
     switch (event.target.value) {
@@ -44,6 +45,10 @@ function BookFilterForm(props) {
   const handleChangeNumber = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+    if (!parseInt(value)) {
+      return;
+    }
+
     setFilterOptions((values) => ({
       ...values,
       [name]: parseInt(value),
@@ -156,6 +161,15 @@ function BookFilterForm(props) {
           <Form.Check type="checkbox" label="Check me out" />
         </Form.Group> */}
         <div className="d-flex justify-content-end mt-3">
+          <Button
+            variant="warning"
+            style={{ backgroundColor: "#ffc107", color: "white" }}
+            type="reset"
+            className="me-3"
+            onClick={() => setFilterOptions(defaultFilterOptions)}
+          >
+            Reset
+          </Button>{" "}
           <Button
             variant="warning"
             style={{ backgroundColor: "#b14512", color: "white" }}

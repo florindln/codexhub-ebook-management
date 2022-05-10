@@ -107,6 +107,7 @@ function BookManagePage(props) {
                   value={inputs.title}
                   name="title"
                   onChange={handleChange}
+                  readOnly={props.type === "edit"}
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -116,6 +117,7 @@ function BookManagePage(props) {
                   value={inputs.authors}
                   name="authors"
                   onChange={handleAuthorsChange}
+                  readOnly={props.type === "edit"}
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -136,6 +138,7 @@ function BookManagePage(props) {
                   value={inputs.pageCount}
                   name="pageCount"
                   onChange={handleChange}
+                  readOnly={props.type === "edit"}
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -145,6 +148,7 @@ function BookManagePage(props) {
                   value={inputs.publishedDate}
                   name="publishedDate"
                   onChange={handleChange}
+                  readOnly={props.type === "edit"}
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -154,6 +158,7 @@ function BookManagePage(props) {
                   value={inputs.category}
                   name="category"
                   onChange={handleChange}
+                  readOnly={props.type === "edit"}
                 />
               </Form.Group>{" "}
               <Form.Group className="mb-3">
@@ -163,6 +168,7 @@ function BookManagePage(props) {
                   value={inputs.thumbnailURL}
                   name="thumbnailURL"
                   onChange={handleChange}
+                  readOnly={props.type === "edit"}
                 />
               </Form.Group>
               <Form.Group className="mb-3">

@@ -44,9 +44,16 @@ namespace UserService.Controllers
             if (existingUser != null)
                 return Conflict(new { message = "User with the same email already exists" });
 
-            userDto.Id = Guid.NewGuid();
+            if (userDto.Email == "" || userDto.FirstName == "" || userDto.LastName == "")
+                return BadRequest(new { message = "Required field is empty" });
+
+
+            if (userDto.Password.Length < 6)
+                return BadRequest(new { message = "Password must be at least 6 characters long" });
+
             userDto.Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
 
+            userDto.Id = Guid.NewGuid();
             var user = userDto.AsModel("User");
 
             await userRepository.CreateAsync(user.AsData());

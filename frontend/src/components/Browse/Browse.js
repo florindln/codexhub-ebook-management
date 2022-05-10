@@ -58,6 +58,7 @@ function Browse() {
 
   const handleFilterBooks = (books) => {
     setBooks(books);
+    setViewableBooks(books.slice(0, 5));
   };
 
   const extractCategoriesFromBooks = () => {

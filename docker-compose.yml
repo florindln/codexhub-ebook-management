@@ -5,6 +5,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    image: florindln/codexhub:frontend
     ports:
       - "3009:3000"
     volumes:
@@ -33,7 +34,6 @@ services:
       MYSQL_USER: dbuser
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: bookservice
-
   mongodb:
     image: mongo
     container_name: mongo
@@ -58,7 +58,7 @@ services:
     build:
       context: ./CodexHub
       dockerfile: BookService/Dockerfile
-    # image: bookservice:dev
+    image: florindln/codexhub:bookservice
     ports:
       - 5002:80
     environment:
@@ -75,15 +75,16 @@ services:
     build:
       context: ./CodexHub
       dockerfile: UserService/Dockerfile
+    image: florindln/codexhub:userservice
     depends_on:
       - mongodb
       - rabbitmq
   inventoryservice:
     container_name: inventoryservice
-    # image: inventoryservice:dev
     build:
       context: ./CodexHub
       dockerfile: InventoryService/Dockerfile
+    image: florindln/codexhub:inventoryservice
     ports:
       - 5005:80
     depends_on:
@@ -91,13 +92,12 @@ services:
       - rabbitmq
   ocelotgateway:
     container_name: ocelotgateway
-    # image: ocelotgateway:dev
     build:
       context: ./CodexHub
       dockerfile: OcelotGateway/Dockerfile
+    image: florindln/codexhub:gateway
     ports:
       - 5021:80
-
 volumes:
   mongodbdata:
   rabbitmqdata:

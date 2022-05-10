@@ -149,7 +149,12 @@ namespace BookService.Controllers
         [HttpPost]
         public async Task<ActionResult<BookDto>> PostAsync(CreateBookDto bookDto, bool incompleteBook = false)
         {
-            IBookEntityFactory factory = incompleteBook ? new IncompleteBookEntityFactory() : new NormalBookEntityFactory(bookDto);
+            IBookEntityFactory factory;
+
+            if (incompleteBook)
+                factory = new IncompleteBookEntityFactory();
+            else
+                factory = new NormalBookEntityFactory(bookDto);
 
             var bookEntity = factory.Create();
 

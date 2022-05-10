@@ -90,7 +90,7 @@ namespace BookService
                 app.UseExceptionHandler("/error");
             }
 
-            //bookDbContext.Database.Migrate();
+            bookDbContext.Database.Migrate();
 
             app.UseCors(
       options => options.WithOrigins("http://localhost:3009").AllowAnyMethod());

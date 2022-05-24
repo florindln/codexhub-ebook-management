@@ -36,7 +36,7 @@ services:
       MYSQL_DATABASE: bookservice
   mongodb:
     image: mongo
-    container_name: mongo
+    container_name: mongodb
     volumes:
       - mongodbdata:/data/db
     ports:
